@@ -13,11 +13,13 @@ namespace mtf7{
     emutf_data_operator( const char *dataformat_release );
 
     virtual error_value       unpack( const word_64bit *buffer );
-    virtual const word_64bit   *pack( void *event_void_ptr );
+    virtual const word_64bit   *pack( void *event_info_ptr );
 
     const emutf_event *get_event_info(){ return &_event; }
 
   protected:
+
+    void free_block_owned_buffers();
 
     emutf_event _event;
 

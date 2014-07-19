@@ -14,6 +14,7 @@ mtf7::emutf_data_operator *mtf7::emutf_operator_builder::get_data_operator( cons
 
 }
 
+//----------------------------------------------------------------------
 mtf7::block_operator_vector *mtf7::emutf_operator_builder::assemble_block_vector( const char *data_release, mtf7:: error_value *error_ptr ){
   // nothing yet, need to build the block operators first ...
   return 0;

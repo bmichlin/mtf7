@@ -1,0 +1,40 @@
+
+emutf_event
+-----------
+
+- needs an "=" operator to make packing easier
+
+need block operators: 
+---------------------
+
+- amc13 header
+  - packer
+  - unpacker
+
+- amc13 trailer
+  - packer
+  - unpacker
+
+- emutf event record header
+  - packer
+  - unpacker
+
+- emutf block counter
+  - packer
+  - unpacker
+
+- emutf 
+  - packer
+  - unpacker
+
+- emutf 
+  - packer
+  - unpacker
+
+
+
+emutf_operator_builder:
+-----------------------
+
+- assemble_block_vector is a noop
+

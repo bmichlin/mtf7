@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "mtf7/data_operator.h"
 
+//----------------------------------------------------------------------
 mtf7::data_operator::data_operator( const char *dataformat_release ):
   _error_status(), _dataformat_release(0), _workers(0) {
 
@@ -14,6 +15,7 @@ mtf7::data_operator::data_operator( const char *dataformat_release ):
 
 }
 
+//----------------------------------------------------------------------
 mtf7::data_operator::~data_operator(){
 
   if (_dataformat_release)
@@ -28,6 +30,7 @@ mtf7::data_operator::~data_operator(){
 
 }
 
+//----------------------------------------------------------------------
 mtf7::mtf7_bool mtf7::data_operator::is_compatible_with ( const char *dataformat_release )
-{  return strcmp( dataformat_release, _dataformat_release ); }
+{  return (strcmp( dataformat_release, _dataformat_release ) == 0); }
 
