@@ -11,18 +11,16 @@ SRC_FILES := $(shell ls src/*.cpp)
 OBJ_FILES := $(patsubst src/%.cpp,obj/%.o,${SRC_FILES})
 HDR_FILES := $(patsubst src/%.cpp,include/mtf7/%.h,${SRC_FILES})
 
-LD        := $(shell root-config --ld) 
-CXX       := $(shell root-config --cxx)
 
 ifeq ($(OSTYPE), linux)
-	CXX += g++ -fPIC
-	LD  += -shared
+	CXX := g++ -fPIC
+	LD  := g++ -shared
 	LIB_TARGET := lib/lib${PACKAGE}.so
 endif
 
 ifeq ($(OSTYPE), darwin)
-	LD += -dynamiclib
-	CXX += clang++ -fPIC
+	LD  := clang++ -dynamiclib
+	CXX := clang++ -fPIC
 	LIB_TARGET := lib/lib${PACKAGE}.dylib
 endif
 
