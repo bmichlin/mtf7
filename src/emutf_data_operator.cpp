@@ -1,10 +1,11 @@
 #include <stdlib.h>
 #include "mtf7/emutf_data_operator.h"
+#include "mtf7/emutf_block_operator.h"
 
 //----------------------------------------------------------------------
 mtf7::emutf_data_operator::emutf_data_operator( const char *data_release ):
   data_operator(data_release)
-{}
+{ mtf7::clear_emutf_event(&_event_info); }
 
 //----------------------------------------------------------------------
 mtf7::error_value mtf7::emutf_data_operator::unpack( const word_64bit *buffer ){
@@ -23,20 +24,23 @@ mtf7::error_value mtf7::emutf_data_operator::unpack( const word_64bit *buffer ){
 
 
 //----------------------------------------------------------------------
-const mtf7::word_64bit *mtf7::emutf_data_operator::pack( void *event_info_ptr ){
+const mtf7::word_64bit *mtf7::emutf_data_operator::pack( ){
 
   unsigned long total_buffer_size = 0;
   
   std::vector<unsigned long> buffer_sizes;
-  
+
   _error_status = NO_ERROR;
   
   for (block_operator_iterator iter = _workers -> begin(); 
        iter != _workers -> end(); iter++){
     
     if (_error_status != NO_ERROR){ free_block_owned_buffers(); return 0; }
+
+    emutf_block_operator *tmp_ptr = (emutf_block_operator *) (&(*iter));
     
-    unsigned long temp = iter -> pack ( event_info_ptr );
+    tmp_ptr -> set_event_info_to_pack ( &_event_info );
+    unsigned long temp = tmp_ptr -> pack ( );
     
     total_buffer_size += temp;
     buffer_sizes.push_back(temp);

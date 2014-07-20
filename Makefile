@@ -1,5 +1,5 @@
 PACKAGE    := mtf7
-LIB_TARGET := LIB_TARGET_unknown_os_type
+#LIB_TARGET := LIB_TARGET_unknown_os_type
 
 BIN_TARGET = 
 
@@ -35,7 +35,7 @@ bin/test% : ${LIB_TARGET} test/test%.cpp
 ${LIB_TARGET}: ${OBJ_FILES}
 	${LD} $^ -o $@ -lc
 
-obj/%.o: src/%.cpp
+obj/%.o: src/%.cpp 
 	${CXX} ${LOCAL_CFLAGS} -o $@ -c $^
 
 clean:

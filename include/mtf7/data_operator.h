@@ -14,7 +14,7 @@ namespace mtf7{
     ~data_operator();
 
     virtual error_value unpack( const word_64bit *buffer ) = 0;
-    virtual const word_64bit *pack( void *event_void_ptr ) = 0;
+    virtual const word_64bit *pack()                       = 0;
 
     mtf7_bool is_compatible_with ( const char *dataformat_release );
 

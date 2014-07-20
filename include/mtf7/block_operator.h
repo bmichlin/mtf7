@@ -13,7 +13,7 @@ namespace mtf7{
     
     block_operator( error_value *error_status );
     
-    virtual unsigned long        pack   ( const void *info_ptr )   = 0; 
+    virtual unsigned long        pack   ()                         = 0; 
     virtual const word_64bit    *unpack (const word_64bit *at_ptr) = 0; 
     
     const word_64bit *get_buffer_start_ptr();
@@ -26,10 +26,17 @@ namespace mtf7{
 
   protected:
 
-    word_64bit *_buffer_start_ptr;
+    word_64bit *create_buffer( unsigned long buffer_size );
+
+    const word_64bit *_buffer_start_ptr;
     mtf7_bool  _i_own_buffer;
     error_value *_error_status;
 
+    void break_into_abcd_words ( word_64bit input_value );
+    word_64bit merge_abcd_words();
+
+    word_16bit _16bit_word_a, _16bit_word_b, _16bit_word_c, _16bit_word_d;
+    
   };
 
   typedef std::vector<block_operator>           block_operator_vector;
