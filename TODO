@@ -1,8 +1,4 @@
 
-emutf_event
------------
-
-- needs an "=" operator to make packing easier
 
 need block operators: 
 ---------------------
@@ -17,11 +13,9 @@ need block operators:
 
 - emutf event record header
   - packer
-  - unpacker
 
-- emutf block counter
+- emutf counter block
   - packer
-  - unpacker
 
 - emutf 
   - packer
@@ -30,8 +24,6 @@ need block operators:
 - emutf 
   - packer
   - unpacker
-
-
 
 emutf_operator_builder:
 -----------------------
