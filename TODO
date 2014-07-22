@@ -30,3 +30,10 @@ emutf_operator_builder:
 
 - assemble_block_vector is a noop
 
+
+l1_event_generator:
+-------------------
+
+- generate random, but internally consistent emutf_event and amc13_event information
+
+

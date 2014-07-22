@@ -31,9 +31,15 @@ unsigned long mtf7::emutf_counter_block_operator::pack(){
   
   mtf7::word_64bit *ptr = buffer;
   
+  mtf7::word_32bit tmp_32bit_word = _event_info_to_pack -> _TC;
 
-  // four 16-bit words assembled here...
+  _16bit_word_a = 0x0000 | (tmp_32bit_word & 0x7fff); tmp_32bit_word >>= 15;
+  _16bit_word_b = 0x8000 | (tmp_32bit_word & 0x7fff); 
 
+  tmp_32bit_word = _event_info_to_pack -> _OC;
+
+  _16bit_word_c = tmp_32bit_word & 0x7fff; tmp_32bit_word >>= 15;
+  _16bit_word_d = tmp_32bit_word & 0x7fff;
 
   *ptr = merge_abcd_words();
 

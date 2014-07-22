@@ -1,0 +1,47 @@
+Muon Track Finder [Virtex 7-based] packer-unpacker 
+--------------------------------------------------
+
+Version 0.1, 07/21/2014
+-----------------------
+
+
+Building:
+---------
+
+To build the package, use make. The Makefile should currently work for Mac OS out of the box. Support for other operating systems will follow.
+
+Running:
+--------
+
+Currently there are no executables, a shared object library is built.
+
+Todo:
+----- 
+
+* need block operators: 
+  + amc13 header
+    - packer
+    - unpacker
+  + amc13 trailer
+    - packer
+    - unpacker
+  + emutf event record header
+    - packer
+  + emutf counter block
+    - packer
+  + emutf 
+    - packer
+    - unpacker
+  + emutf 
+    - packer
+    - unpacker
+
+* emutf_operator_builder:
+  + assemble_block_vector is a noop
+
+l1_event_generator:
+  * generate random, but internally consistent emutf_ and amc13_events
+
+packer_unpacker_tester:
+  * generate
+
