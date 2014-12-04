@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <cstring>
 #include "mtf7/data_operator.h"
 
 //----------------------------------------------------------------------
