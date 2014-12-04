@@ -11,6 +11,8 @@ namespace mtf7{
 
   public:
     
+    emutf_counter_block_operator ( error_value *error_status, emutf_event *unpacked_event_info ):
+        emutf_block_operator( error_status, unpacked_event_info ) {}
     virtual unsigned long        pack   ();
     virtual const word_64bit    *unpack ( const word_64bit *at_ptr );
 
