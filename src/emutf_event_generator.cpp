@@ -167,12 +167,57 @@ void mtf7::event_generator::generateEvents( int nevents ){
 		// try to implement ivan code
 
 		//mtf7::error_value *mtf7_err;
-		//mtf7::emutf_header_block_operator my_operator(mtf7_err, unpacked_event);
+		// mtf7::emutf_header_block_operator my_operator(mtf7_err, unpacked_event);
 		//mtf7::emutf_header_block_operator *my_operator;
 
  		//my_operator.set_event_info_to_pack(unpacked_event);
         //my_operator->pack();
 
+		// // create a buffer
+		// mtf7::word_64bit *buffer = create_buffer( _buffer_size );
+		// mtf7::word_64bit *ptr = buffer;
+
+
+		// the following part is not working because of the shifts.
+
+		// _64bit_word = 0;
+
+		// //word d
+		// _64bit_word |= (0xa<<12);
+		// _64bit_word |= (unpacked_event->_ME1a & 0x1ff);
+		// //word c
+		// _64bit_word<<=16;
+		// _64bit_word |= (0xa<<12);
+		// _64bit_word |= (unpacked_event->_tbin & 0x8);
+		// _64bit_word |= (_64bit_word<<4);
+		// // _64bit_word |= (unpacked_event->_ddm & 0x1); 
+		// // _64bit_word<<=1;
+		// // _64bit_word |= (unpacked_event->_spa & 0x1);
+		// // _64bit_word<<=1;
+		// // _64bit_word |= (unpacked_event->_rpca & 0x1);
+		// // _64bit_word<<=1;
+		// // _64bit_word |= (unpacked_event->_skip & 0x1);
+		// // _64bit_word<<=1;
+		// // _64bit_word |= (unpacked_event->_rdy & 0x1);
+		// // _64bit_word<<=1;
+		// // _64bit_word |= (unpacked_event->_bsy & 0x1);
+		// // _64bit_word<<=1;
+		// // _64bit_word |= (unpacked_event->_osy & 0x1);
+		// // _64bit_word<<=1;
+		// // _64bit_word |= (unpacked_event->_wof & 0x1);
+		// //word b
+		// _64bit_word<<=16;
+		// _64bit_word |= (0xa<<12);
+		// _64bit_word |= (unpacked_event->_sp_ts & 0xf);
+		// // _64bit_word<<=4;
+		// // _64bit_word |= (unpacked_event->_sp_ersv & 0x8);
+		// // _64bit_word<<=3;
+		// // _64bit_word |= (unpacked_event->_sp_addr & 0x1f);
+		// //word a
+		// _64bit_word<<=16;
+		// _64bit_word |= (0xa<<12);
+
+		// binaryFile.write((char*)&_64bit_word,sizeof(_64bit_word));
 
 
 	}
@@ -185,7 +230,6 @@ void mtf7::event_generator::generateEvents( int nevents ){
 
 
 }
-
 
 unsigned long mtf7::event_generator::generateInt( int nbits ){
 
