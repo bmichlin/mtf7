@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <cstring>
 #include "mtf7/emutf_data_operator.h"
 #include "mtf7/emutf_block_operator.h"
 
