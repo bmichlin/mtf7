@@ -13,8 +13,6 @@ int main(){
 	// this will generate 10 events and write them in a text file and a binary file. 
 	mygen.generateEvents(10);
 
-	mtf7::emutf_event * event_to_pack = new mtf7::emutf_event();
-	mygen.generateEvent(1, event_to_pack);
 
 	// ---------------
 	// Testing packing
