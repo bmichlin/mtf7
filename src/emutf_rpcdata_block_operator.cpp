@@ -22,12 +22,12 @@ const mtf7::word_64bit *mtf7::emutf_rpcdata_block_operator::unpack ( const mtf7:
   _unpacked_event_info -> _rpc_link_number = (_16bit_word_b & 0x1f); _16bit_word_b >>= 5;
   _unpacked_event_info -> _rpc_lb = (_16bit_word_b & 0x3); _16bit_word_b >>= 2;
   _unpacked_event_info -> _rpc_eod = (_16bit_word_b & 0x1); _16bit_word_b >>= 1;
-  _unpacked_event_info -> _rpc_bcn = (_16bit_word_b & 0x7f);
+  _unpacked_event_info -> _rpc_bcn = (_16bit_word_b & 0x3f);
 
   _unpacked_event_info -> _rpc_bxn = (_16bit_word_c & 0xfff); _16bit_word_c >>= 12;
   _unpacked_event_info -> _rpc_bc0 = (_16bit_word_c & 0x1);
 
-  _unpacked_event_info -> _rpc_tbin_num = (_16bit_word_d & 0x7);  
+  _unpacked_event_info -> _rpc_tbin = (_16bit_word_d & 0x7);  
 
   return at_ptr;
 
@@ -40,31 +40,20 @@ unsigned long mtf7::emutf_rpcdata_block_operator::pack(){
   
   mtf7::word_64bit *ptr = buffer;
   
-  // _16bit_word_a = _event_info_to_pack -> _csc_key_wire_group & 0x7f; _16bit_word_a <<= 4;
-  // _16bit_word_a |= _event_info_to_pack -> _csc_quality & 0xf; _16bit_word_a <<= 4;
-  // _16bit_word_a |= _event_info_to_pack -> _csc_quality & 0xf;
-  // _16bit_word_a |= 0x8000;
+  _16bit_word_a = _event_info_to_pack -> _rpc_prt_delay & 0x7; _16bit_word_a <<= 4;
+  _16bit_word_a |= _event_info_to_pack -> _rpc_partition_num & 0xf; _16bit_word_a <<= 8;
+  _16bit_word_a |= _event_info_to_pack -> _rpc_partition_data & 0xff; 
+  
+  _16bit_word_b = _event_info_to_pack -> _rpc_bcn & 0x3f; _16bit_word_b <<= 1;
+  _16bit_word_b |= _event_info_to_pack -> _rpc_eod & 0x1; _16bit_word_b <<= 2;
+  _16bit_word_b |= _event_info_to_pack -> _rpc_lb & 0x3; _16bit_word_b <<= 5;
+  _16bit_word_b |= _event_info_to_pack -> _rpc_link_number & 0x1f;
 
-  // _16bit_word_b = _event_info_to_pack -> _csc_bc0 & 0x1; _16bit_word_b <<= 1;
-  // _16bit_word_b |= _event_info_to_pack -> _csc_bxe & 0x1; _16bit_word_b <<= 1;
-  // _16bit_word_b |= _event_info_to_pack -> _csc_lr & 0x1; _16bit_word_b <<= 4;
-  // _16bit_word_b |= _event_info_to_pack -> _csc_id & 0xf; _16bit_word_b <<= 8;
-  // _16bit_word_b |= _event_info_to_pack -> _csc_clct_key_half_strip & 0xff;
-  // _16bit_word_b |= 0x8000;
+  _16bit_word_c = _event_info_to_pack -> _rpc_bc0 & 0x1; _16bit_word_c <<= 14;
+  _16bit_word_c |= _event_info_to_pack -> _rpc_bxn & 0xff;
+  _16bit_word_c |= 0x8000;
 
-  // _16bit_word_c = _event_info_to_pack -> _csc_afff & 0x1; _16bit_word_c <<= 1;
-  // _16bit_word_c |= _event_info_to_pack -> _csc_cik & 0x1; _16bit_word_c <<= 1;
-  // _16bit_word_c |= _event_info_to_pack -> _csc_nit & 0x1; _16bit_word_c <<= 12;
-  // _16bit_word_c |= _event_info_to_pack -> _csc_me_bxn & 0xfff;
-
-  // _16bit_word_d = _event_info_to_pack -> _csc_afef & 0x1; _16bit_word_d <<= 1;
-  // _16bit_word_d |= _event_info_to_pack -> _csc_se & 0x1; _16bit_word_d <<= 1;
-  // _16bit_word_d |= _event_info_to_pack -> _csc_sm & 0x1; _16bit_word_d <<= 4;
-  // _16bit_word_d |= _event_info_to_pack -> _csc_epc & 0xf; _16bit_word_d <<= 1;
-  // _16bit_word_d |= _event_info_to_pack -> _csc_af & 0x1; _16bit_word_d <<=3;
-  // _16bit_word_d |= _event_info_to_pack -> _csc_station & 0x7; _16bit_word_d <<= 1;
-  // _16bit_word_d |= _event_info_to_pack -> _csc_vp & 0x1; _16bit_word_d <<= 3;
-  // _16bit_word_d |= _event_info_to_pack -> _csc_tbin_num & 0x7;
+  _16bit_word_d = _event_info_to_pack -> _rpc_tbin & 0x7;
 
   
   *ptr = merge_abcd_words();
