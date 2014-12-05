@@ -20,7 +20,7 @@ namespace mtf7{
   private:
 
   	// simple function checking if d15 is 1 or 0.
-	bool isd15true ( const mtf7::word_16bit *word );
+	bool isd15true ( mtf7::word_16bit word );
 
   };
 
