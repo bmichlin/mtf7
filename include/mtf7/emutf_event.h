@@ -35,8 +35,8 @@ namespace mtf7{
     // Event Record Trailer
     word_32bit _trailer_crc22;
     word_16bit _trailer_ddcrs_bid, _trailer_spcrs_scc;
-    word_8bit _trailer_l1a, _trailer_yy, _trailer_mm, _trailer_dd, _trailer_sp_ladr, _trailer_sp_ersv, _trailer_sp_padr;
-    word_1bit _trailer_lfff, _trailer_bb;
+    word_8bit _trailer_l1a, _trailer_yy, _trailer_mm, _trailer_dd, _trailer_sp_ladr, _trailer_sp_ersv, _trailer_sp_padr, _trailer_ddcrs_lf;
+    word_1bit _trailer_lfff, _trailer_bb, _trailer_lp, _trailer_hp;
 
 
   };
@@ -133,6 +133,7 @@ namespace mtf7{
     // Event Record Trailer
     event_info -> _trailer_crc22 = 0;
     event_info -> _trailer_ddcrs_bid = 0;
+    event_info -> _trailer_ddcrs_lf = 0;
     event_info -> _trailer_spcrs_scc = 0;
     event_info -> _trailer_l1a = 0;
     event_info -> _trailer_yy = 0;
