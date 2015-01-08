@@ -10,20 +10,7 @@ need block operators:
 - amc13 trailer
   - packer
   - unpacker
-
-- emutf event record header
-  - packer
-
-- emutf counter block
-  - packer
-
-- emutf 
-  - packer
-  - unpacker
-
-- emutf 
-  - packer
-  - unpacker
+  
 
 emutf_operator_builder:
 -----------------------
