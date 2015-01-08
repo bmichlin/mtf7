@@ -286,6 +286,33 @@ void mtf7::event_generator::generateBlockOfCounters( emutf_event * _event ){
 }
 
 
+void mtf7::generateMEdataRecord( emutf_event * _event ){
+
+	_event -> _csc_me_bxn = generateInt(16);
+
+	_event -> _csc_key_wire_group = generateInt(8);
+	_event -> _csc_clct_key_half_strip = generateInt(8);
+	_event -> _csc_quality = generateInt(8);
+	_event -> _csc_clct_pattern = generateInt(8);
+	_event -> _csc_id = generateInt(8);
+	_event -> _csc_epc = generateInt(8);
+	_event -> _csc_station = generateInt(8);
+	_event -> _csc_tbin_num = generateInt(8);
+
+	_event -> _csc_bc0 = generateInt(1);
+	_event -> _csc_bxe = generateInt(1);
+	_event -> _csc_lr = generateInt(1);
+	_event -> _csc_afff = generateInt(1);
+	_event -> _csc_cik = generateInt(1);
+	_event -> _csc_nit = generateInt(1);
+	_event -> _csc_afef = generateInt(1);
+	_event -> _csc_se = generateInt(1);
+	_event -> _csc_sm = generateInt(1);
+	_event -> _csc_af = generateInt(1);
+	_event -> _csc_vp = generateInt(1);
+}
+
+
 
 
 
