@@ -13,7 +13,7 @@ To build the package, use make. The Makefile should currently work for Mac OS ou
 Running:
 --------
 
-In test you can find a simple makefile who generate a test executable.
+In test you can find a simple makefile that generates a test executable.
 
 Todo:
 ----- 
