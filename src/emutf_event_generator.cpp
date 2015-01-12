@@ -286,7 +286,7 @@ void mtf7::event_generator::generateBlockOfCounters( emutf_event * _event ){
 }
 
 
-void mtf7::generateMEdataRecord( emutf_event * _event ){
+void mtf7::event_generator::generateMEdataRecord( emutf_event * _event ){
 
 	_event -> _csc_me_bxn = generateInt(16);
 
