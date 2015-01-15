@@ -28,6 +28,10 @@ void mtf7::event_generator::generateEvent( int event_number, emutf_event * unpac
 	mtf7::clear_emutf_event( unpacked_event );
 	generateEventRecordHeader(event_number, unpacked_event);
 	generateBlockOfCounters(unpacked_event);
+	generateMEdataRecord( unpacked_event );
+	generateRPCdataRecord( unpacked_event );
+	generateSPoutputDataRecord( unpacked_event );
+	generateEventRecordTrailer( unpacked_event );
 
 }
 
@@ -91,51 +95,6 @@ void mtf7::event_generator::generateEvents( int nevents ){
 		asciiFile << "" << unpacked_event -> _OC << std::endl;
 
 
-
-// todo: use ivan code
-		// // create a buffer
-		//unsigned long _buffer_size = 3;
-		// mtf7::word_64bit *buffer = create_buffer( _buffer_size );
-		// mtf7::word_64bit *ptr = buffer;
-
-  //       _16bit_word_a = (0x9) |= (unpacked_event->_l1a & 0xfff);
-  //       _16bit_word_b = (unpacked_event->_l1a & 0xfff);
-  //       _16bit_word_c = (unpacked_event->_l1a & 0xfff);
-  //       _16bit_word_d = (unpacked_event->_l1a & 0xfff) >> 16;
-
-
-  //       _16bit_word_c = (0x9);
-  //       _16bit_word_d = (unpacked_event->_l1a & 0xfff) >> 16;
-
-  //       *ptr = merge_abcd_words(); ptr++;
-  //       binaryFile.write((char*)&ptr,sizeof(ptr));
-
-
-
-		//write a binary file
-		//every 64 bit word has to be written from right to left, so in order of 16bit words: d,c,b,a
-  	    // std::bitset<16> _16bit_word_a,_16bit_word_b,_16bit_word_c,_16bit_word_d ;
-		// std::bitset<16> head (0x9);
-		// std::bitset<16> l1_first_part;
-		// l1_first_part = (unpacked_event -> _l1a & 0xfff);
-		// std::bitset<16> l1_second_part;
-		// l1_second_part = (unpacked_event -> _l1a & 0xffff) >> 12;
-		// std::bitset<16> zero (0x1);
-
-		// _16bit_word_a = (head<<12) |= (l1_first_part);
-		// _16bit_word_b = (head<<12) |= (l1_second_part);
-		// _16bit_word_c = (head<<12);
-		// _16bit_word_d = (head<<12) |= (unpacked_event->_bxn);
-
-		// binaryFile.write((char*)&_16bit_word_d,sizeof(_16bit_word_d));
-		// binaryFile.write((char*)&_16bit_word_c,sizeof(_16bit_word_c));
-		// binaryFile.write((char*)&_16bit_word_b,sizeof(_16bit_word_b));
-		// binaryFile.write((char*)&_16bit_word_a,sizeof(_16bit_word_a));
-
-		// binaryFile.write((char*)&first_word,sizeof(second_word));
-		// binaryFile.write((char*)&zero,sizeof(zero));
-		// binaryFile.write((char*)&unpacked_event->_bxn,sizeof(unpacked_event->_bxn));
-
 // --------
 // from http://stackoverflow.com/questions/24348761/how-to-get-bitset-or-with-different-bitset-sizes
 // assuming op1 is larger
@@ -164,60 +123,6 @@ void mtf7::event_generator::generateEvents( int nevents ){
 		binaryFile.write((char*)&_64bit_word,sizeof(_64bit_word));
 
 
-		// try to implement ivan code
-
-		//mtf7::error_value *mtf7_err;
-		// mtf7::emutf_header_block_operator my_operator(mtf7_err, unpacked_event);
-		//mtf7::emutf_header_block_operator *my_operator;
-
- 		//my_operator.set_event_info_to_pack(unpacked_event);
-        //my_operator->pack();
-
-		// // create a buffer
-		// mtf7::word_64bit *buffer = create_buffer( _buffer_size );
-		// mtf7::word_64bit *ptr = buffer;
-
-
-		// the following part is not working because of the shifts.
-
-		// _64bit_word = 0;
-
-		// //word d
-		// _64bit_word |= (0xa<<12);
-		// _64bit_word |= (unpacked_event->_ME1a & 0x1ff);
-		// //word c
-		// _64bit_word<<=16;
-		// _64bit_word |= (0xa<<12);
-		// _64bit_word |= (unpacked_event->_tbin & 0x8);
-		// _64bit_word |= (_64bit_word<<4);
-		// // _64bit_word |= (unpacked_event->_ddm & 0x1); 
-		// // _64bit_word<<=1;
-		// // _64bit_word |= (unpacked_event->_spa & 0x1);
-		// // _64bit_word<<=1;
-		// // _64bit_word |= (unpacked_event->_rpca & 0x1);
-		// // _64bit_word<<=1;
-		// // _64bit_word |= (unpacked_event->_skip & 0x1);
-		// // _64bit_word<<=1;
-		// // _64bit_word |= (unpacked_event->_rdy & 0x1);
-		// // _64bit_word<<=1;
-		// // _64bit_word |= (unpacked_event->_bsy & 0x1);
-		// // _64bit_word<<=1;
-		// // _64bit_word |= (unpacked_event->_osy & 0x1);
-		// // _64bit_word<<=1;
-		// // _64bit_word |= (unpacked_event->_wof & 0x1);
-		// //word b
-		// _64bit_word<<=16;
-		// _64bit_word |= (0xa<<12);
-		// _64bit_word |= (unpacked_event->_sp_ts & 0xf);
-		// // _64bit_word<<=4;
-		// // _64bit_word |= (unpacked_event->_sp_ersv & 0x8);
-		// // _64bit_word<<=3;
-		// // _64bit_word |= (unpacked_event->_sp_addr & 0x1f);
-		// //word a
-		// _64bit_word<<=16;
-		// _64bit_word |= (0xa<<12);
-
-		// binaryFile.write((char*)&_64bit_word,sizeof(_64bit_word));
 
 
 	}
@@ -313,6 +218,71 @@ void mtf7::event_generator::generateMEdataRecord( emutf_event * _event ){
 }
 
 
+void mtf7::event_generator::generateRPCdataRecord( emutf_event * _event ){
+
+	_event -> _rpc_prt_delay = generateInt(8);
+	_event -> _rpc_partition_num = generateInt(8);
+	_event -> _rpc_partition_data = generateInt(8);
+	_event -> _rpc_bcn = generateInt(8);
+	_event -> _rpc_lb = generateInt(8);
+	_event -> _rpc_link_number = generateInt(8);
+	_event -> _rpc_bxn = generateInt(8);
+	_event -> _rpc_tbin = generateInt(8);
+
+	_event -> _rpc_eod = generateInt(1);
+	_event -> _rpc_bc0 = generateInt(1);
+
+}
 
 
+void mtf7::event_generator::generateSPoutputDataRecord( emutf_event * _event ){
+
+	_event -> _track_pt_lut_address = generateInt(32);
+	_event -> _track_phi_inner = generateInt(16);
+	_event -> _track_phi_outer = generateInt(16);
+	_event -> _track_eta = generateInt(16);
+	_event -> _track_pt = generateInt(16);
+
+	_event -> _track_quality = generateInt(8);
+	_event -> _track_bx = generateInt(8);
+	_event -> _track_me4_id = generateInt(8);
+	_event -> _track_me3_id = generateInt(8);
+	_event -> _track_me2_id = generateInt(8);
+	_event -> _track_me1_id = generateInt(8);
+	_event -> _track_tbin_num = generateInt(8);
+	_event -> _track_me4_tbin = generateInt(8);
+	_event -> _track_me3_tbin = generateInt(8);
+	_event -> _track_me2_tbin = generateInt(8);
+	_event -> _track_me1_tbin = generateInt(8);
+
+	_event -> _track_hl = generateInt(1);
+	_event -> _track_c = generateInt(1);
+	_event -> _track_vc = generateInt(1);
+	_event -> _track_se = generateInt(1);
+	_event -> _track_bc0 = generateInt(1);
+
+}
+
+void mtf7::event_generator::generateEventRecordTrailer( emutf_event * _event ){
+
+	_event -> _trailer_crc22 = generateInt(32);
+
+	_event -> _trailer_ddcrs_bid = generateInt(16);
+	_event -> _trailer_spcrs_scc = generateInt(16);
+
+	_event -> _trailer_l1a = generateInt(8);
+	_event -> _trailer_yy = generateInt(8);
+	_event -> _trailer_mm = generateInt(8);
+	_event -> _trailer_dd = generateInt(8);
+	_event -> _trailer_sp_ladr = generateInt(8);
+	_event -> _trailer_sp_ersv = generateInt(8);
+	_event -> _trailer_sp_padr = generateInt(8);
+	_event -> _trailer_ddcrs_lf = generateInt(8);
+
+	_event -> _trailer_lfff = generateInt(1);
+	_event -> _trailer_bb = generateInt(1);
+	_event -> _trailer_lp = generateInt(1);
+	_event -> _trailer_hp = generateInt(1);
+
+}
 
