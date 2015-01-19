@@ -1,17 +1,4 @@
 
-
-need block operators: 
----------------------
-
-- amc13 header
-  - packer
-  - unpacker
-
-- amc13 trailer
-  - packer
-  - unpacker
-  
-
 emutf_operator_builder:
 -----------------------
 

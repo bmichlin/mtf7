@@ -18,14 +18,6 @@ In test you can find a simple makefile that generates a test executable.
 Todo:
 ----- 
 
-* need block operators: 
-  + amc13 header
-    - packer
-    - unpacker
-  + amc13 trailer
-    - packer
-    - unpacker
-
 * emutf_operator_builder:
   + assemble_block_vector is a noop
 
