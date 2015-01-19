@@ -45,6 +45,11 @@ namespace mtf7{
     word_8bit _trailer_l1a, _trailer_yy, _trailer_mm, _trailer_dd, _trailer_sp_ladr, _trailer_sp_ersv, _trailer_sp_padr, _trailer_ddcrs_lf;
     word_1bit _trailer_lfff, _trailer_bb, _trailer_lp, _trailer_hp;
 
+    // AMC13 Trailer
+    word_32bit _amc13_trailer_evt_lgth;
+    word_16bit _amc13_trailer_crc16;
+    word_8bit _amc13_trailer_evt_stat, _amc13_trailer_tts;
+    word_1bit _amc13_trailer_c, _amc13_trailer_f, _amc13_trailer_t, _amc13_trailer_r;
 
   };
 

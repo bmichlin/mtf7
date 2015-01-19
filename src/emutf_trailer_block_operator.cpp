@@ -1,11 +1,5 @@
 #include "mtf7/emutf_trailer_block_operator.h"
 
-
-    // word_32bit _trailer_crc22;
-    // word_16bit _trailer_ddcrs_bid, _trailer_spcrs_scc;
-    // word_8bit _trailer_l1a, _trailer_yy, _trailer_mm, _trailer_dd, _trailer_sp_ladr, _trailer_sp_ersv, _trailer_sp_padr;
-    // word_1bit _trailer_lfff, _trailer_bb;
-
 //----------------------------------------------------------------------
 // mtf7::emutf_trailer_operator::emutf_trailer_block_operator( error_value *error_status, emutf_event *event_info ): emutf_block_operator( error_status, event_info ){}
 

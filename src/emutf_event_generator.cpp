@@ -33,6 +33,7 @@ void mtf7::event_generator::generateEvent( int event_number, emutf_event * unpac
 	generateRPCdataRecord( unpacked_event );
 	generateSPoutputDataRecord( unpacked_event );
 	generateEventRecordTrailer( unpacked_event );
+	generateAMC13Trailer( unpacked_event );
 
 }
 
@@ -303,6 +304,23 @@ void mtf7::event_generator::generateEventRecordTrailer( emutf_event * _event ){
 	_event -> _trailer_bb = generateInt(1);
 	_event -> _trailer_lp = generateInt(1);
 	_event -> _trailer_hp = generateInt(1);
+
+}
+
+
+void mtf7::event_generator::generateAMC13Trailer( emutf_event * _event ){
+
+    // AMC13 Trailer
+
+	_event -> _amc13_trailer_evt_lgth = generateInt(24);
+	_event -> _amc13_trailer_crc16 = generateInt(16);
+	_event -> _amc13_trailer_c = generateInt(1);
+	_event -> _amc13_trailer_f = generateInt(1);
+	_event -> _amc13_trailer_evt_stat = generateInt(4);
+	_event -> _amc13_trailer_tts = generateInt(4);
+	_event -> _amc13_trailer_t = generateInt(1);
+	_event -> _amc13_trailer_r = generateInt(1);
+
 
 }
 

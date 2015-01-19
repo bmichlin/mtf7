@@ -11,7 +11,8 @@ SOURCES=block_operator.cpp \
 	emutf_rpcdata_block_operator.cpp \
 	emutf_spoutputdata_block_operator.cpp \
 	emutf_trailer_block_operator.cpp \
-	emutf_amc13_header_block_operator.cpp
+	emutf_amc13_header_block_operator.cpp \
+	emutf_amc13_trailer_block_operator.cpp
 
 OBJECTS=$(SOURCES:.cpp=.o)
 

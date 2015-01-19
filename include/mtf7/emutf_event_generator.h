@@ -32,6 +32,8 @@ namespace mtf7{
 
 		void generateEventRecordTrailer( emutf_event * unpacked_event );
 
+		void generateAMC13Trailer( emutf_event * unpacked_event );
+
 	private:
 
 		std::string fileName;
