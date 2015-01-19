@@ -18,7 +18,7 @@ namespace mtf7{
 
 		void setSeed( int seed );
 
-		void generateAMC13Header( emutf_event * unpacked_event );
+		void generateAMC13Header( int i, emutf_event * unpacked_event );
 
 		void generateEventRecordHeader( int i, emutf_event * unpacked_event); 
 

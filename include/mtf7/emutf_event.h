@@ -9,7 +9,10 @@ namespace mtf7{
 
     // AMC13 event header
     word_32bit _amc13_header_orn;
-    word_8bit _amc13_header_ufov, _amc13_header_res, _amc13_header_namc;
+    word_32bit _amc13_header_lv1_id;
+    word_16bit _amc13_header_bx_id, _amc13_header_source_id;
+    word_8bit _amc13_header_evt_ty, _amc13_header_fov, _amc13_header_ufov, _amc13_header_res, _amc13_header_namc;
+    word_1bit _amc13_header_h, _amc13_header_x;
 
     // Event Record Header
     word_32bit _l1a;    
