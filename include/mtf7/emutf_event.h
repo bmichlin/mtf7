@@ -7,6 +7,10 @@ namespace mtf7{
 
   struct emutf_event {
 
+    // AMC13 event header
+    word_32bit _amc13_header_orn;
+    word_8bit _amc13_header_ufov, _amc13_header_res, _amc13_header_namc;
+
     // Event Record Header
     word_32bit _l1a;    
     word_16bit _bxn;    

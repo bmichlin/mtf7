@@ -26,6 +26,7 @@ void mtf7::event_generator::setFileName( std::string _fileName ){
 void mtf7::event_generator::generateEvent( int event_number, emutf_event * unpacked_event ){
 
 	mtf7::clear_emutf_event( unpacked_event );
+	generateAMC13Header( unpacked_event );
 	generateEventRecordHeader(event_number, unpacked_event);
 	generateBlockOfCounters(unpacked_event);
 	generateMEdataRecord( unpacked_event );
@@ -145,6 +146,15 @@ unsigned long mtf7::event_generator::generateInt( int nbits ){
 
 }
 
+
+void mtf7::event_generator::generateAMC13Header( emutf_event * _event ){
+
+	_event -> _amc13_header_ufov = generateInt(4);
+	_event -> _amc13_header_res = generateInt(4);
+	_event -> _amc13_header_namc = generateInt(4);
+	_event -> _amc13_header_orn = generateInt(32);
+
+}
 
 void mtf7::event_generator::generateEventRecordHeader( int i, emutf_event * _event){
 

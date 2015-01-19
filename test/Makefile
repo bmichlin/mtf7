@@ -1,6 +1,17 @@
 #dummy make file for testing
 
-SOURCES=block_operator.cpp data_operator.cpp emutf_counter_block_operator.cpp emutf_data_operator.cpp emutf_header_block_operator.cpp emutf_operator_builder.cpp emutf_event_generator.cpp emutf_cscmedata_block_operator.cpp emutf_rpcdata_block_operator.cpp emutf_spoutputdata_block_operator.cpp emutf_trailer_block_operator.cpp
+SOURCES=block_operator.cpp \
+	data_operator.cpp \
+	emutf_counter_block_operator.cpp \
+	emutf_data_operator.cpp \
+	emutf_header_block_operator.cpp \
+	emutf_operator_builder.cpp \
+	emutf_event_generator.cpp \
+	emutf_cscmedata_block_operator.cpp \
+	emutf_rpcdata_block_operator.cpp \
+	emutf_spoutputdata_block_operator.cpp \
+	emutf_trailer_block_operator.cpp \
+	emutf_amc13_header_block_operator.cpp
 
 OBJECTS=$(SOURCES:.cpp=.o)
 
