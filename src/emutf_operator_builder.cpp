@@ -11,6 +11,7 @@ mtf7::emutf_data_operator *mtf7::emutf_operator_builder::get_data_operator( cons
 
   error_value *error_ptr = &( built_dataop -> _error_status ); 
 
+  std::cout << "Building _workers..." << std::endl;
   built_dataop -> _workers = assemble_block_vector ( data_release, error_ptr );
 
   return built_dataop;
@@ -23,6 +24,7 @@ mtf7::block_operator_vector *mtf7::emutf_operator_builder::assemble_block_vector
 	mtf7::block_operator_vector * _operator_vector;
 	mtf7::emutf_event * _event_info; // dummy event info
 
+	std::cout << "Data release = " << data_release << std::endl;
 	// test datarealese
 	if(data_release == "test"){
 

@@ -1,6 +1,7 @@
 #include "mtf7/emutf_header_block_operator.h"
 #include "mtf7/emutf_event_generator.h"
 #include "mtf7/emutf_data_operator.h"
+#include "mtf7/emutf_operator_builder.h"
 #include <string>
 #include <iostream>
 
@@ -28,18 +29,22 @@ int main(){
 
 
 	const char* data_release = "test";
-	mtf7::emutf_data_operator * my_operator = new mtf7::emutf_data_operator(data_release);
+
+	mtf7::emutf_operator_builder * my_operator = new mtf7::emutf_operator_builder();
+	mtf7::emutf_data_operator * my_data_operator = my_operator -> get_data_operator(data_release);
+
+//	mtf7::emutf_data_operator * my_operator = new mtf7::emutf_data_operator(data_release);
 
 
 	// create the operator for the header block
-//	mtf7::emutf_header_block_operator * my_operator = new mtf7::emutf_header_block_operator( err, event_to_pack );
+    //	mtf7::emutf_header_block_operator * my_operator = new mtf7::emutf_header_block_operator( err, event_to_pack );
 	// set the event to pack
 	// you aways need to set_info_to_pack when you want to pack. look at emutf_block_operator.h
-	// my_operator -> set_event_info_to_pack(event_to_pack);
+	my_data_operator -> set_event_info_to_pack(event_to_pack);
 	// packing the event 
-	// const mtf7::word_64bit * packed_event = my_operator -> pack();
+	const mtf7::word_64bit * packed_event = my_data_operator -> pack();
 	// // and now unpacking
-	// my_operator->unpack(packed_event);
+	my_data_operator->unpack(packed_event);
 
 	return 0;
 
