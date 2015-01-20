@@ -33,21 +33,27 @@ const mtf7::word_64bit *mtf7::emutf_data_operator::pack( ){
 
   _error_status = NO_ERROR;
   
-  std::cout << "Wrokers size : " << _workers ->size();
+  std::cout << "Workers size : " << _workers ->size() << std::endl;
   for (block_operator_iterator iter = _workers -> begin(); 
        iter != _workers -> end(); iter++){
 
     std::cout << "Packing block operator" << std::endl;
     if (_error_status != NO_ERROR){ free_block_owned_buffers(); return 0; }
 
+    std::cout << "Pointer conversion" << std::endl; 
     emutf_block_operator *tmp_ptr = (emutf_block_operator *) (&(*iter));
-    
+
+    std::cout << "Set event info to pack" << std::endl;    
     tmp_ptr -> set_event_info_to_pack ( _event_info );
-    unsigned long temp = tmp_ptr -> pack ( );
-    
+
+    std::cout << "Packing" << std::endl;    
+    unsigned long temp = tmp_ptr -> pack ();
+    std::cout << "Packed!" << std::endl;    
+
     total_buffer_size += temp;
     buffer_sizes.push_back(temp);
-    
+    std::cout << "Total buffer size : " << total_buffer_size << std::endl;
+
   }
     
   mtf7::word_64bit *buffer_ptr = (mtf7::word_64bit *) malloc( total_buffer_size << 3 );

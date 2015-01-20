@@ -88,6 +88,8 @@ const mtf7::word_64bit *mtf7::emutf_header_block_operator::unpack( const word_64
 
 unsigned long mtf7::emutf_header_block_operator::pack(){
 
+  std::cout << "Creating buffer... " << std::endl; 
+
   mtf7::word_64bit *buffer = create_buffer ( _nominal_buffer_size );
 
   mtf7::word_64bit *ptr = buffer;

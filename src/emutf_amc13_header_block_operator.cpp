@@ -1,5 +1,5 @@
 #include "mtf7/emutf_amc13_header_block_operator.h"
-
+#include <iostream>
 //----------------------------------------------------------------------
 // mtf7::emutf_header_operator::emutf_amc13_header_block_operator( error_value *error_status, emutf_event *event_info ): emutf_block_operator( error_status, event_info ){}
 
