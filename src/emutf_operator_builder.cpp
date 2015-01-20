@@ -1,5 +1,8 @@
 #include "mtf7/emutf_operator_builder.h"
 #include "mtf7/emutf_data_operator.h"
+#include "mtf7/emutf_amc13_header_block_operator.h"
+#include "mtf7/emutf_header_block_operator.h"
+#include <iostream>
 
 //----------------------------------------------------------------------
 mtf7::emutf_data_operator *mtf7::emutf_operator_builder::get_data_operator( const char *data_release ){
@@ -16,7 +19,25 @@ mtf7::emutf_data_operator *mtf7::emutf_operator_builder::get_data_operator( cons
 
 //----------------------------------------------------------------------
 mtf7::block_operator_vector *mtf7::emutf_operator_builder::assemble_block_vector( const char *data_release, mtf7:: error_value *error_ptr ){
-  // nothing yet, need to build the block operators first ...
-  return 0;
+
+	mtf7::block_operator_vector * _operator_vector;
+	mtf7::emutf_event * _event_info; // dummy event info
+
+	// test datarealese
+	if(data_release == "test"){
+
+		std::cout << "Building operator builder" << std::endl;
+		//amc13 header
+		mtf7::emutf_amc13_header_block_operator * amc13_header = new mtf7::emutf_amc13_header_block_operator( error_ptr, _event_info );
+		_operator_vector->push_back(amc13_header);
+		// header
+		mtf7::emutf_header_block_operator * header = new mtf7::emutf_header_block_operator( error_ptr, _event_info );
+		_operator_vector->push_back(header);
+
+		return _operator_vector;
+	}
+
+	else
+		return 0;
 
 }

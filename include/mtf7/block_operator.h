@@ -39,7 +39,7 @@ namespace mtf7{
     
   };
 
-  typedef std::vector<block_operator>           block_operator_vector;
+  typedef std::vector<block_operator*>           block_operator_vector;
   typedef block_operator_vector::iterator       block_operator_iterator;
   typedef block_operator_vector::const_iterator block_operator_const_iterator;
   

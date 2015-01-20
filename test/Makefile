@@ -16,7 +16,9 @@ SOURCES=block_operator.cpp \
 
 OBJECTS=$(SOURCES:.cpp=.o)
 
-BIN_TARGET = test_event_generator
+BIN_TARGET = test_data_operator
+#test_event_generator
+#test_data_generator
 
 INCLUDES = -I ../include/
 
