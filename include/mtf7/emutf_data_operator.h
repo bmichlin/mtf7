@@ -16,7 +16,7 @@ namespace mtf7{
     virtual error_value       unpack( const word_64bit *buffer );
     virtual const word_64bit *pack();
 
-    void  set_event_info_to_pack( const emutf_event *event_info ) { std::cout << "hi" << std::endl; _event_info = event_info; }
+    void  set_event_info_to_pack( const emutf_event *event_info ) { std::cout << "hi" << std::endl; _event_info = event_info; std::cout << "Event info l1a = " << _event_info->_l1a << std::endl; }
     const emutf_event        *get_event_info() { return _event_info; }
 
 

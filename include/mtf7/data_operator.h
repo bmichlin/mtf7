@@ -13,8 +13,8 @@ namespace mtf7{
     data_operator( const char *dataformat_release );
     ~data_operator();
 
-    virtual error_value unpack( const word_64bit *buffer ) = 0;
-    virtual const word_64bit *pack()                       = 0;
+    // virtual error_value unpack( const word_64bit *buffer ) = 0;
+    // virtual const word_64bit *pack()                       = 0;
 
     mtf7_bool is_compatible_with ( const char *dataformat_release );
 

@@ -1,6 +1,7 @@
 #ifndef __MTF7_BLOCK_OPERATOR__
 #define __MTF7_BLOCK_OPERATOR__
 
+#include "mtf7/emutf_event.h"
 #include <vector>
 
 #include "mtf7/types.h"
@@ -13,8 +14,8 @@ namespace mtf7{
     
     block_operator( error_value *error_status );
     
-    virtual unsigned long        pack   ()                         = 0; 
-    virtual const word_64bit    *unpack (const word_64bit *at_ptr) = 0; 
+    // virtual unsigned long        pack   ()                         = 0; 
+    // virtual const word_64bit    *unpack (const word_64bit *at_ptr) = 0; 
     
     const word_64bit *get_buffer_start_ptr();
     
@@ -22,6 +23,9 @@ namespace mtf7{
 
     error_value get_error_status();
     
+    // virtual void  set_event_info_to_pack( const emutf_event * _event_info ) {};
+    // virtual void  set_unpacked_event_info_ptr( emutf_event *event_info )  {};
+
     // ikf todo: add get_event_info() to base class?
 
   protected:

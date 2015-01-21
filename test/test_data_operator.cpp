@@ -21,11 +21,31 @@ int main(){
 	// ---------------
 
 	// create the pointer to the event to pack and its error handler
-	mtf7::emutf_event * event_to_pack = new mtf7::emutf_event();
+	mtf7::emutf_event * _generated_event = new mtf7::emutf_event();
 	mtf7::error_value * err = new mtf7::error_value();
 	// fill the event with random information
-	mygen.generateEvent(1, event_to_pack);
+	mygen.generateEvent(1, _generated_event);
 	//std::cout << "l1a = " << event_to_pack -> _l1a << std::endl;
+
+	const mtf7::emutf_event * event_to_pack = &*_generated_event;
+
+//	---- Testing full constructor
+	// mtf7::emutf_header_block_operator *header = new mtf7::emutf_header_block_operator(err, event_to_pack);
+	// //test in packing
+	// header->pack();
+	// std::cout << "Header packed!" << std::endl;
+//  --- This works!  ---
+
+
+
+//	Testing alternative constructor
+	// mtf7::emutf_header_block_operator *header = new mtf7::emutf_header_block_operator(err);
+	// std::cout << "setting the info" << std::endl;
+	// header->set_event_info_to_pack(event_to_pack);
+	// std::cout << "packing" << std::endl;
+	// header->pack();
+	// std::cout << "Header packed!" << std::endl;
+//  --- This works!  --- Tohugh it raises a question: why I can't have the "set_event_info as virtual in the block_operator class"
 
 
 	const char* data_release = "test";
@@ -34,7 +54,6 @@ int main(){
 	mtf7::emutf_data_operator * my_data_operator = my_operator -> get_data_operator(data_release);
 
 //	mtf7::emutf_data_operator * my_operator = new mtf7::emutf_data_operator(data_release);
-
 
 	// create the operator for the header block
     //	mtf7::emutf_header_block_operator * my_operator = new mtf7::emutf_header_block_operator( err, event_to_pack );

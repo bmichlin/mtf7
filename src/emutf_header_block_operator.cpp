@@ -96,7 +96,11 @@ unsigned long mtf7::emutf_header_block_operator::pack(){
 
   // pack 1st 64bit word --------------------
 
+  std::cout << "Reading event_info " << std::endl; 
+
   mtf7::word_32bit tmp_l1a = _event_info_to_pack -> _l1a;
+
+  std::cout << "Unpacking first word " << std::endl; 
 
   _16bit_word_a = 0x9000 | (tmp_l1a & 0xfff); tmp_l1a >>= 12;
   _16bit_word_b = 0x9000 | (tmp_l1a & 0xfff);

@@ -3,6 +3,7 @@
 #include "mtf7/emutf_data_operator.h"
 #include "mtf7/emutf_block_operator.h"
 #include <iostream>
+#include <typeinfo>
 
 //----------------------------------------------------------------------
 mtf7::emutf_data_operator::emutf_data_operator( const char *data_release ):
@@ -16,7 +17,8 @@ mtf7::error_value mtf7::emutf_data_operator::unpack( const word_64bit *buffer ){
   for (block_operator_iterator iter = _workers -> begin(); 
        iter != _workers -> end(); iter++){
     if (_error_status != NO_ERROR) return _error_status;
-    tmp_ptr = (*iter) -> unpack (tmp_ptr);
+    emutf_block_operator *_tmp_ptr = (emutf_block_operator *) (&(*iter));
+    tmp_ptr = _tmp_ptr -> unpack (tmp_ptr);
   }
   
   return _error_status;
@@ -43,11 +45,16 @@ const mtf7::word_64bit *mtf7::emutf_data_operator::pack( ){
     std::cout << "Pointer conversion" << std::endl; 
     emutf_block_operator *tmp_ptr = (emutf_block_operator *) (&(*iter));
 
-    std::cout << "Set event info to pack" << std::endl;    
-    tmp_ptr -> set_event_info_to_pack ( _event_info );
+    std::cout << "Set event info to pack" << std::endl;
+    std::cout << "Eevnt info l1a 2 = " << _event_info -> _l1a << std::endl;
+    // std::cout << "Type id event = " << typeid(_event_info).name() << std::endl;
+    tmp_ptr -> set_event_info_to_pack ( _event_info ); // this is calling the emutf_block_operator
+//    (*iter) -> set_event_info_to_pack ( _event_info ); // this is calling the emutf_block_operator
 
     std::cout << "Packing" << std::endl;    
     unsigned long temp = tmp_ptr -> pack ();
+    // (*iter) -> pack();
+    // unsigned long temp= 0;
     std::cout << "Packed!" << std::endl;    
 
     total_buffer_size += temp;

@@ -11,14 +11,28 @@ namespace mtf7{
 
   public:
 
+  	// Minimal constructor with only errro value.
+  	emutf_header_block_operator ( error_value * error_status ): 
+  		emutf_block_operator(error_status) {}
+
+  	// Constructor with event info to unpack for higher level operations.
     emutf_header_block_operator ( error_value *error_status, emutf_event *unpacked_event_info ): 
-	emutf_block_operator( error_status, unpacked_event_info ) {}
-    virtual unsigned long        pack   ( );
-    virtual const word_64bit    *unpack (const word_64bit *at_ptr);
+    	emutf_block_operator( error_status, unpacked_event_info ) {}
+
+ 	// Constructor with event info to pack for higher level operations.
+    emutf_header_block_operator ( error_value *error_status, const emutf_event *event_info_to_pack ): 
+    	emutf_block_operator( error_status, event_info_to_pack ) {}
+
+//    void  set_event_info_to_pack( const emutf_event *event_info ) { std::cout << "tschuss" << std::endl; _event_info_to_pack = event_info; std::cout << "Event info l1a 4 = " << _event_info_to_pack->_l1a << std::endl; }
+
+    unsigned long        pack   ( );
+    const word_64bit    *unpack (const word_64bit *at_ptr);
 
     static const unsigned int _nominal_buffer_size = 3; // buffer size in 64-bit words
-  
 
+  // protected:
+  // 	   const emutf_event *_event_info_to_pack;
+ 
   };
 
 }

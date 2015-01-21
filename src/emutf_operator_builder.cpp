@@ -22,7 +22,7 @@ mtf7::emutf_data_operator *mtf7::emutf_operator_builder::get_data_operator( cons
 mtf7::block_operator_vector *mtf7::emutf_operator_builder::assemble_block_vector( const char *data_release, mtf7:: error_value *error_ptr ){
 
 	mtf7::block_operator_vector * _operator_vector = new mtf7::block_operator_vector();
-	mtf7::emutf_event * _event_info; // dummy event info
+	mtf7::emutf_event * _event_info = new mtf7::emutf_event(); // dummy event info
 
 	const char * test = "test";
 	std::cout << "Data release = " << data_release << std::endl;
@@ -39,8 +39,8 @@ mtf7::block_operator_vector *mtf7::emutf_operator_builder::assemble_block_vector
 		// _operator_vector->push_back(amc13_header);
 		// header
 		std::cout << "header" << std::endl;
-		mtf7::emutf_header_block_operator * header = new mtf7::emutf_header_block_operator( error_ptr, _event_info );
-		_operator_vector->push_back(header);
+		mtf7::emutf_header_block_operator * header = new mtf7::emutf_header_block_operator( error_ptr );
+		_operator_vector->push_back( header );
 
 		return _operator_vector;
 	}
