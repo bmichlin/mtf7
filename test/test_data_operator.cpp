@@ -33,7 +33,7 @@ int main(){
 	// mtf7::emutf_header_block_operator *header = new mtf7::emutf_header_block_operator(err, event_to_pack);
 	// //test in packing
 	// header->pack();
-	// std::cout << "Header packed!" << std::endl;
+	// std::cout << "Header packed! A ." << std::endl;
 //  --- This works!  ---
 
 

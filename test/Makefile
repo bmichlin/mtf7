@@ -22,7 +22,9 @@ BIN_TARGET = test_data_operator
 
 INCLUDES = -I ../include/
 
-CC = g++
+CC = g++ -g -ggdb
+#options for debugging
+# -g -ggdb
 
 all: $(OBJECTS) $(BIN_TARGET) 
 	@echo Simple compiler
@@ -53,3 +55,4 @@ $(BIN_TARGET): $(BIN_TARGET).cpp $(OBJECTS)
 
 clean:
 	$(RM) $(BIN_TARGET) ../src/$(LIB_TARGET).o
+	$(RM) ./*.o

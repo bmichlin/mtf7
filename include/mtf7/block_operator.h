@@ -14,8 +14,8 @@ namespace mtf7{
     
     block_operator( error_value *error_status );
     
-    // virtual unsigned long        pack   ()                         = 0; 
-    // virtual const word_64bit    *unpack (const word_64bit *at_ptr) = 0; 
+    virtual unsigned long        pack   ()                         = 0; 
+    virtual const word_64bit    *unpack (const word_64bit *at_ptr) = 0; 
     
     const word_64bit *get_buffer_start_ptr();
     
@@ -23,10 +23,11 @@ namespace mtf7{
 
     error_value get_error_status();
     
-    // virtual void  set_event_info_to_pack( const emutf_event * _event_info ) {};
-    // virtual void  set_unpacked_event_info_ptr( emutf_event *event_info )  {};
+    virtual void  set_event_info_to_pack( const emutf_event * _event_info ) = 0;
+    virtual void  set_unpacked_event_info_ptr( emutf_event *event_info )  = 0;
 
     // ikf todo: add get_event_info() to base class?
+//    virtual const emutf_event *get_unpacked_event_info() = 0;
 
   protected:
 
