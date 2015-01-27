@@ -7,7 +7,8 @@
 
 //----------------------------------------------------------------------
 mtf7::emutf_data_operator::emutf_data_operator( const char *data_release ):
-  data_operator(data_release) {}
+  data_operator(data_release) 
+  {  }
 
 //----------------------------------------------------------------------
 mtf7::error_value mtf7::emutf_data_operator::unpack( const word_64bit *buffer ){
@@ -18,9 +19,15 @@ mtf7::error_value mtf7::emutf_data_operator::unpack( const word_64bit *buffer ){
        iter != _workers -> end(); iter++){
     if (_error_status != NO_ERROR) return _error_status;
 //    emutf_block_operator *_tmp_ptr = (emutf_block_operator *) (&(*iter));
-    emutf_block_operator * _tmp_ptr = dynamic_cast<emutf_block_operator *> (*iter);
-    tmp_ptr = _tmp_ptr -> unpack (tmp_ptr);
+    emutf_block_operator * _tmp_block_operator = dynamic_cast<emutf_block_operator *> (*iter);
+    // passing the event info to fill to the block operator
+    std::cout << "Setting the unapcked event into ptr. " << std::endl;
+    _tmp_block_operator -> set_unpacked_event_info_ptr( _unpacked_event_info );
+    tmp_ptr = _tmp_block_operator -> unpack (tmp_ptr);
   }
+
+  std::cout << "Unpacked l1a : " << _unpacked_event_info -> _l1a << std::endl;
+  std::cout << "Unpacked!" << std::endl;
   
   return _error_status;
     

@@ -17,7 +17,7 @@ int main(){
 
 
 	// ---------------
-	// Testing packing using data operator
+	// Testing packing and unpacking using data operator
 	// ---------------
 
 	// create the pointer to the event to pack and its error handler
@@ -29,7 +29,7 @@ int main(){
 
 	const mtf7::emutf_event * event_to_pack = &*_generated_event;
 
-//	---- Testing full constructor
+//	--- Testing full constructor ---
 	// mtf7::emutf_header_block_operator *header = new mtf7::emutf_header_block_operator(err, event_to_pack);
 	// //test in packing
 	// header->pack();
@@ -37,33 +37,40 @@ int main(){
 //  --- This works!  ---
 
 
-
-//	Testing alternative constructor
+//	--- Testing alternative constructor ---
 	// mtf7::emutf_header_block_operator *header = new mtf7::emutf_header_block_operator(err);
 	// std::cout << "setting the info" << std::endl;
 	// header->set_event_info_to_pack(event_to_pack);
 	// std::cout << "packing" << std::endl;
 	// header->pack();
 	// std::cout << "Header packed!" << std::endl;
-//  --- This works!  --- Tohugh it raises a question: why I can't have the "set_event_info as virtual in the block_operator class"
+//  --- This works!  --- 
 
 
+//  --- Testing packing ---
 	const char* data_release = "test";
 
 	mtf7::emutf_operator_builder * my_operator = new mtf7::emutf_operator_builder();
 	mtf7::emutf_data_operator * my_data_operator = my_operator -> get_data_operator(data_release);
-
-//	mtf7::emutf_data_operator * my_operator = new mtf7::emutf_data_operator(data_release);
-
-	// create the operator for the header block
-    //	mtf7::emutf_header_block_operator * my_operator = new mtf7::emutf_header_block_operator( err, event_to_pack );
 	// set the event to pack
 	// you aways need to set_info_to_pack when you want to pack. look at emutf_block_operator.h
 	my_data_operator -> set_event_info_to_pack(event_to_pack);
 	// packing the event 
-	const mtf7::word_64bit * packed_event = my_data_operator -> pack();
+	const mtf7::word_64bit * buffer_pointer = my_data_operator -> pack();
+//  This works! ------	
+
+
+//  --- Unpacking the packed event ---
+	mtf7::emutf_event * _unpacked_event = new mtf7::emutf_event();
+	// setting the event where the unpacked information will be stored
+	my_data_operator -> set_unpacked_event_info_ptr(_unpacked_event);
 	// // and now unpacking
-	my_data_operator->unpack(packed_event);
+	my_data_operator->unpack(buffer_pointer);
+
+
+
+//  --- todo: Test if unpacked packed event matches the generated event ---
+
 
 	return 0;
 

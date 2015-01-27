@@ -90,7 +90,11 @@ unsigned long mtf7::emutf_header_block_operator::pack(){
 
   std::cout << "Creating buffer... " << std::endl; 
 
+  std::cout << "Nominal buffer size : " << _nominal_buffer_size << std::endl;
+
   mtf7::word_64bit *buffer = create_buffer ( _nominal_buffer_size );
+
+  std::cout << "Buffer : " << *buffer << std::endl;
 
   mtf7::word_64bit *ptr = buffer;
 
@@ -107,8 +111,12 @@ unsigned long mtf7::emutf_header_block_operator::pack(){
   _16bit_word_c = 0x9000;
   _16bit_word_d = 0x9000 | (_event_info_to_pack -> _bxn & 0xfff);
 
-  *ptr = merge_abcd_words(); ptr++;
-  
+  std::cout << "ptr before merge words = " << *ptr << std::endl;
+
+  *ptr = merge_abcd_words(); 
+  std::cout << "ptr after merge words before ptr++ = " << *ptr << std::endl;
+  ptr++;
+
 
   // pack 2nd 64bit word --------------------
 
@@ -156,6 +164,7 @@ unsigned long mtf7::emutf_header_block_operator::pack(){
 
   *ptr = merge_abcd_words(); ptr++;
 
+  std::cout << "Returning _nominal_buffer_size = " << _nominal_buffer_size << std::endl;
 
   return _nominal_buffer_size;
 
