@@ -23,15 +23,10 @@ namespace mtf7{
     emutf_header_block_operator ( error_value *error_status, const emutf_event *event_info_to_pack ): 
     	emutf_block_operator( error_status, event_info_to_pack ) {}
 
-//    void  set_event_info_to_pack( const emutf_event *event_info ) { std::cout << "tschuss" << std::endl; _event_info_to_pack = event_info; std::cout << "Event info l1a 4 = " << _event_info_to_pack->_l1a << std::endl; }
-
     unsigned long        pack   ( );
     const word_64bit    *unpack (const word_64bit *at_ptr);
 
     static const unsigned int _nominal_buffer_size = 3; // buffer size in 64-bit words
-
-  // protected:
-  // 	   const emutf_event *_event_info_to_pack;
  
   };
 

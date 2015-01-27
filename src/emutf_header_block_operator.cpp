@@ -114,7 +114,7 @@ unsigned long mtf7::emutf_header_block_operator::pack(){
   std::cout << "ptr before merge words = " << *ptr << std::endl;
 
   *ptr = merge_abcd_words(); 
-  std::cout << "ptr after merge words before ptr++ = " << *ptr << std::endl;
+  std::cout << "ptr after merge words before ptr++  = " << *ptr << std::endl;
   ptr++;
 
 

@@ -19,7 +19,7 @@ namespace mtf7{
     void  set_event_info_to_pack( const emutf_event *event_info ) { std::cout << "hi" << std::endl; _event_info = event_info; std::cout << "Event info l1a = " << _event_info->_l1a << std::endl; }
     void  set_unpacked_event_info_ptr( emutf_event *event_info ) { _unpacked_event_info = event_info; }
 
-    const emutf_event        *get_event_info() { return _event_info; }
+    const emutf_event   *get_event_info() { return _event_info; }
 
 
   protected:

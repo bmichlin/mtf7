@@ -26,7 +26,6 @@ namespace mtf7{
     virtual unsigned long        pack   ()                         = 0; 
     virtual const word_64bit    *unpack (const word_64bit *at_ptr) = 0; 
 
-
     const emutf_event *get_unpacked_event_info(){ return _unpacked_event_info; }
     
     void set_event_info_to_pack     ( const emutf_event *event_info ){ std::cout << "ciao" << std::endl; _event_info_to_pack  = event_info; std::cout << "Event info l1a 3 = " << _event_info_to_pack->_l1a << std::endl; }
