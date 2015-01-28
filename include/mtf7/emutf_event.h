@@ -8,18 +8,16 @@ namespace mtf7{
   struct emutf_event {
 
     // AMC13 event header
-    word_32bit _amc13_header_orn;
-    word_32bit _amc13_header_lv1_id;
+    word_32bit _amc13_header_orn, _amc13_header_lv1_id;
     word_16bit _amc13_header_bx_id, _amc13_header_source_id;
     word_8bit _amc13_header_evt_ty, _amc13_header_fov, _amc13_header_ufov, _amc13_header_res, _amc13_header_namc;
     word_1bit _amc13_header_h, _amc13_header_x;
 
     // Event Record Header
     word_32bit _l1a;    
-    word_16bit _bxn;    
+    word_16bit _bxn, _ME1a, _ME1b, _ME2, _ME3, _ME4;
     word_8bit  _sp_ts, _sp_ersv, _sp_addr, _tbin;   
     word_1bit  _ddm, _spa, _rpca, _skip, _rdy, _bsy, _osy, _wof;    
-    word_16bit _ME1a, _ME1b, _ME2, _ME3, _ME4;
 
     // Block of Counters
     word_32bit _RPC, _TC, _OC;
@@ -55,6 +53,20 @@ namespace mtf7{
 
   static void clear_emutf_event( emutf_event *event_info ){
 
+    // AMC13 event header
+    event_info -> _amc13_header_orn = 0;
+    event_info -> _amc13_header_lv1_id = 0;
+    event_info -> _amc13_header_bx_id = 0;
+    event_info -> _amc13_header_source_id = 0;
+    event_info -> _amc13_header_evt_ty = 0;
+    event_info -> _amc13_header_fov = 0;
+    event_info -> _amc13_header_ufov = 0;
+    event_info -> _amc13_header_res = 0;
+    event_info -> _amc13_header_namc = 0;
+    event_info -> _amc13_header_h = 0;
+    event_info -> _amc13_header_x = 0;
+
+    // Event header
     event_info -> _l1a = 0;
     event_info -> _bxn = 0;
     
