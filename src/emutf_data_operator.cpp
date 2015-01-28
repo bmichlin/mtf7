@@ -13,6 +13,8 @@ mtf7::emutf_data_operator::emutf_data_operator( const char *data_release ):
 //----------------------------------------------------------------------
 mtf7::error_value mtf7::emutf_data_operator::unpack( const word_64bit *buffer ){
 
+  // my guess is that the proble is in the fact that all buffer pointers are constant and can not be incremented.
+
   const word_64bit *tmp_ptr = buffer;
   
   for (block_operator_iterator iter = _workers -> begin(); 
@@ -23,6 +25,8 @@ mtf7::error_value mtf7::emutf_data_operator::unpack( const word_64bit *buffer ){
     std::cout << "Setting the unapcked event into ptr. " << std::endl;
     _tmp_block_operator -> set_unpacked_event_info_ptr( _unpacked_event_info );
     tmp_ptr = _tmp_block_operator -> unpack (tmp_ptr);
+    std::cout << "Unpacked l1a on loop: " << _unpacked_event_info -> _l1a << std::endl;
+    std::cout << "Pointer to buffer in loop = " << &tmp_ptr << std::endl;
   }
 
   std::cout << "Unpacked l1a : " << _unpacked_event_info -> _l1a << std::endl;
@@ -54,6 +58,8 @@ const mtf7::word_64bit *mtf7::emutf_data_operator::pack( ){
 
     std::cout << "Set event info to pack" << std::endl;
     std::cout << "Eevnt info l1a 2 = " << _event_info -> _l1a << std::endl;
+    std::cout << "amc13 event l1a = " << _event_info -> _amc13_header_lv1_id << std::endl;
+    std::cout << "csc_me_bxn = " << _event_info -> _csc_me_bxn << std::endl;
     std::cout << "Type id event = " << typeid(_event_info).name() << std::endl;
     tmp_ptr -> set_event_info_to_pack ( _event_info ); // this is calling the emutf_block_operator
 
@@ -67,7 +73,7 @@ const mtf7::word_64bit *mtf7::emutf_data_operator::pack( ){
 
   }
     
-  mtf7::word_64bit *buffer_ptr = (mtf7::word_64bit *) malloc( total_buffer_size << 3 );
+  mtf7::word_64bit *buffer_ptr = (mtf7::word_64bit *) malloc( total_buffer_size << 3 ); // multipling the total buffer size by 8 to get bits. (size_t has to be in bytes). total_buffer_size is in 64bit words unit.
   
   std::vector <unsigned long>::iterator size_iter = buffer_sizes.begin();
   

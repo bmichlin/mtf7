@@ -68,7 +68,9 @@ int main(){
 	my_data_operator->unpack(buffer_pointer);
 
 	std::cout << "_unpacked_event -> _l1a = " << _unpacked_event -> _l1a << std::endl;
-	
+	std::cout << "_unpacked_event -> _amc13_header_lv1_id = " << _unpacked_event -> _amc13_header_lv1_id << std::endl;
+	std::cout << "_unpacked_event -> _csc_me_bxn = " << _unpacked_event -> _csc_me_bxn << std::endl;
+
 //  --- todo: Test if unpacked packed event matches the generated event ---
 
 
