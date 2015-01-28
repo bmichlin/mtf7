@@ -170,6 +170,15 @@ namespace mtf7{
     event_info -> _trailer_lfff = false;
     event_info -> _trailer_bb = false;
 
+    // AMC13 event trailer
+    event_info -> _amc13_trailer_evt_lgth = 0;
+    event_info -> _amc13_trailer_crc16 = 0;
+    event_info -> _amc13_trailer_evt_stat = 0;
+    event_info -> _amc13_trailer_tts = 0;
+    event_info -> _amc13_trailer_c = 0;
+    event_info -> _amc13_trailer_f = 0;
+    event_info -> _amc13_trailer_t = 0;
+    event_info -> _amc13_trailer_r = 0;
 
   }
 
