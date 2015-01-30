@@ -29,6 +29,7 @@ mtf7::error_value mtf7::emutf_data_operator::unpack( const word_64bit *buffer ){
     tmp_ptr = _tmp_block_operator -> unpack (tmp_ptr);
     if(tmp_ptr == 0 ){
       std::cout << "ERR: Error unpacking block number " << std::distance(_workers->begin(),iter) << std::endl;
+      std::cout << "ERR: Error value :" << _error_status << std::endl;
       return _error_status;
     }
     std::cout << "Pointer after unpack : " << tmp_ptr << std::endl;
