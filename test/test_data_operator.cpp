@@ -73,6 +73,11 @@ int main(){
 
 //  --- todo: Test if unpacked packed event matches the generated event ---
 
+	delete my_operator;
+	delete err;
+	delete _generated_event;
+	delete my_data_operator;
+	delete _unpacked_event;
 
 	return 0;
 

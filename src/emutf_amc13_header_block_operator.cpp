@@ -93,6 +93,7 @@ unsigned long mtf7::emutf_amc13_header_block_operator::pack(){
 
   *ptr = merge_abcd_words(); ptr++;
   
+
   return _nominal_buffer_size;
 
 }

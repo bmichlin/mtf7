@@ -88,34 +88,32 @@ const mtf7::word_64bit *mtf7::emutf_header_block_operator::unpack( const word_64
 
 unsigned long mtf7::emutf_header_block_operator::pack(){
 
-  std::cout << "Creating buffer... " << std::endl; 
-
-  std::cout << "Nominal buffer size : " << _nominal_buffer_size << std::endl;
+  // std::cout << "Creating buffer... " << std::endl; 
+  // std::cout << "Nominal buffer size : " << _nominal_buffer_size << std::endl;
 
   mtf7::word_64bit *buffer = create_buffer ( _nominal_buffer_size );
 
-  std::cout << "Buffer : " << *buffer << std::endl;
+  // std::cout << "Buffer : " << *buffer << std::endl;
 
   mtf7::word_64bit *ptr = buffer;
 
   // pack 1st 64bit word --------------------
 
-  std::cout << "Reading event_info " << std::endl; 
+  // std::cout << "Reading event_info " << std::endl; 
 
   mtf7::word_32bit tmp_l1a = _event_info_to_pack -> _l1a;
 
-  std::cout << "Unpacking first word " << std::endl; 
+  // std::cout << "Unpacking first word " << std::endl; 
 
   _16bit_word_a = 0x9000 | (tmp_l1a & 0xfff); tmp_l1a >>= 12;
   _16bit_word_b = 0x9000 | (tmp_l1a & 0xfff);
   _16bit_word_c = 0x9000;
   _16bit_word_d = 0x9000 | (_event_info_to_pack -> _bxn & 0xfff);
 
-  std::cout << "ptr before merge words = " << *ptr << std::endl;
+  // std::cout << "ptr before merge words = " << *ptr << std::endl;
 
-  *ptr = merge_abcd_words(); 
-  std::cout << "ptr after merge words before ptr++  = " << *ptr << std::endl;
-  ptr++;
+  *ptr = merge_abcd_words(); ptr++;
+  // std::cout << "ptr after merge words before ptr++  = " << *ptr << std::endl;
 
 
   // pack 2nd 64bit word --------------------
@@ -164,7 +162,7 @@ unsigned long mtf7::emutf_header_block_operator::pack(){
 
   *ptr = merge_abcd_words(); ptr++;
 
-  std::cout << "Returning _nominal_buffer_size = " << _nominal_buffer_size << std::endl;
+  // std::cout << "Returning _nominal_buffer_size = " << _nominal_buffer_size << std::endl;
 
   return _nominal_buffer_size;
 

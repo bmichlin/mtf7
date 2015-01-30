@@ -26,7 +26,7 @@ namespace mtf7{
     virtual unsigned long        pack   ( );
     virtual const word_64bit    *unpack (const word_64bit *at_ptr);
 
-    static const unsigned int _nominal_buffer_size = 3; // buffer size in 64-bit words
+    static const unsigned int _nominal_buffer_size = 2; // buffer size in 64-bit words
   
 
   };

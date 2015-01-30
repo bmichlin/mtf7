@@ -20,6 +20,7 @@ namespace mtf7{
 
     block_operator_vector *assemble_block_vector( const char *data_release, error_value *error_ptr );
 
+
   };
 
 }

@@ -135,6 +135,7 @@ void mtf7::event_generator::generateEvents( int nevents ){
 	// close a bniary file
 	binaryFile.close();
 
+	delete unpacked_event;
 
 }
 

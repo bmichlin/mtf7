@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <iostream>
 #include "mtf7/block_operator.h"
 
 //----------------------------------------------------------------------
@@ -31,10 +32,15 @@ mtf7::error_value mtf7::block_operator::get_error_status()
 //----------------------------------------------------------------------
 void mtf7::block_operator::break_into_abcd_words( word_64bit input_value ){
 
+  // std::cout << "word a in break into = " << _16bit_word_a << std::endl;
+  std::cout << "input value in break into = " << input_value << std::endl;
+
   _16bit_word_a = input_value & 0xffff; input_value >>= 16;
   _16bit_word_b = input_value & 0xffff; input_value >>= 16;
   _16bit_word_c = input_value & 0xffff; input_value >>= 16;
   _16bit_word_d = input_value & 0xffff; 
+
+  // std::cout << "word a in break into = " << _16bit_word_a << std::endl;
 
 }
 
