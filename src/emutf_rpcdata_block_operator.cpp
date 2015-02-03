@@ -1,5 +1,5 @@
 #include "mtf7/emutf_rpcdata_block_operator.h"
-
+ 
 const mtf7::word_64bit *mtf7::emutf_rpcdata_block_operator::unpack ( const mtf7::word_64bit *at_ptr ){
 
   if (*_error_status != mtf7::NO_ERROR) return 0;
@@ -7,7 +7,8 @@ const mtf7::word_64bit *mtf7::emutf_rpcdata_block_operator::unpack ( const mtf7:
   if (at_ptr == 0) { *_error_status = mtf7::NULL_BUFFER_PTR; return 0; }
 
   break_into_abcd_words( *at_ptr ); at_ptr++;
-  
+
+
   if ( _16bit_word_a & 0x8000 )              *_error_status = mtf7::BLOCK_COUNTER_FORMAT; // check if D15 is 0
   if ( _16bit_word_b & 0x8000 )              *_error_status = mtf7::BLOCK_COUNTER_FORMAT; // check if D15 is 0
   if ( (_16bit_word_c & 0x8000 ) != 0x8000 )  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; // check if D15 is 1

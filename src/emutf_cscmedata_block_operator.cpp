@@ -7,11 +7,11 @@ const mtf7::word_64bit *mtf7::emutf_cscmedata_block_operator::unpack ( const mtf
   if (at_ptr == 0) { *_error_status = mtf7::NULL_BUFFER_PTR; return 0; }
 
   break_into_abcd_words( *at_ptr ); at_ptr++;
-  
+
   if ( (_16bit_word_a & 0x8000 ) != 0x8000 ) *_error_status = mtf7::BLOCK_COUNTER_FORMAT; // check if D15 is 1
   if ( (_16bit_word_b & 0x8000 ) != 0x8000 ) *_error_status = mtf7::BLOCK_COUNTER_FORMAT; // check if D15 is 1
-  if ( _16bit_word_c & 0x8000 )              *_error_status = mtf7::BLOCK_COUNTER_FORMAT; // check if D15 is 0
-  if ( _16bit_word_d & 0x8000 )              *_error_status = mtf7::BLOCK_COUNTER_FORMAT; // check if D15 is 0
+  if ( (_16bit_word_c & 0x8000 ) != 0x0000 ) *_error_status = mtf7::BLOCK_COUNTER_FORMAT; // check if D15 is 0
+  if ( (_16bit_word_d & 0x8000 ) != 0x0000 ) *_error_status = mtf7::BLOCK_COUNTER_FORMAT; // check if D15 is 0
   if (*_error_status != mtf7::NO_ERROR) return 0;
 
 
@@ -39,7 +39,7 @@ const mtf7::word_64bit *mtf7::emutf_cscmedata_block_operator::unpack ( const mtf
   _unpacked_event_info -> _csc_sm = (_16bit_word_d & 0x1); _16bit_word_d >>= 1;
   _unpacked_event_info -> _csc_se = (_16bit_word_d & 0x1); _16bit_word_d >>= 1;
   _unpacked_event_info -> _csc_afef = (_16bit_word_d & 0x1);
-
+ 
 
   return at_ptr;
 
@@ -78,7 +78,6 @@ unsigned long mtf7::emutf_cscmedata_block_operator::pack(){
   _16bit_word_d |= _event_info_to_pack -> _csc_vp & 0x1; _16bit_word_d <<= 3;
   _16bit_word_d |= _event_info_to_pack -> _csc_tbin_num & 0x7;
 
-  
   *ptr = merge_abcd_words();
 
   return _nominal_buffer_size;

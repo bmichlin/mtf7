@@ -1,11 +1,9 @@
 #include "mtf7/emutf_spoutputdata_block_operator.h"
+#include "mtf7/emutf_debug.h"
+#include <bitset>
+
  
-bool mtf7::emutf_spoutputdata_block_operator::isd15true ( mtf7::word_16bit word ){
-
-if( ( _16bit_word_a & 0x8000 ) == 0x8000 )
-  return true;
-
-}
+bool mtf7::emutf_spoutputdata_block_operator::isd15true ( mtf7::word_16bit word ){ return ( word & 0x8000 ); }
 
 const mtf7::word_64bit *mtf7::emutf_spoutputdata_block_operator::unpack ( const mtf7::word_64bit *at_ptr ){
 
@@ -17,10 +15,10 @@ const mtf7::word_64bit *mtf7::emutf_spoutputdata_block_operator::unpack ( const 
   // 1st 64 bit word
   break_into_abcd_words( *at_ptr ); at_ptr++;
   
-  if (isd15true(_16bit_word_a))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
-  if (!isd15true(_16bit_word_b))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
-  if (isd15true(_16bit_word_c))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
-  if (!isd15true(_16bit_word_d))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
+  if (!isd15true(_16bit_word_a))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
+  if (isd15true(_16bit_word_b))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
+  if (!isd15true(_16bit_word_c))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
+  if (isd15true(_16bit_word_d))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
   if (*_error_status != mtf7::NO_ERROR) return 0;
 
   _unpacked_event_info -> _track_phi_inner  = _16bit_word_a & 0xfff; _16bit_word_a >>= 12;
@@ -41,10 +39,10 @@ const mtf7::word_64bit *mtf7::emutf_spoutputdata_block_operator::unpack ( const 
   // 2nd 64 bit word
   break_into_abcd_words( *at_ptr ); at_ptr++;
   
-  if (!isd15true(_16bit_word_a))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
-  if (isd15true(_16bit_word_b))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
-  if (isd15true(_16bit_word_c))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
-  if (!isd15true(_16bit_word_d))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
+  if (isd15true(_16bit_word_a))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
+  if (!isd15true(_16bit_word_b))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
+  if (!isd15true(_16bit_word_c))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
+  if (isd15true(_16bit_word_d))  *_error_status = mtf7::BLOCK_COUNTER_FORMAT; 
   if (*_error_status != mtf7::NO_ERROR) return 0;
 
   _unpacked_event_info -> _track_me1_id = _16bit_word_a & 0x7; _16bit_word_a >>= 3;
