@@ -11,7 +11,7 @@ namespace mtf7{
 
   public:
 
-  	// Minimal constructor with only errro value.
+  	// Minimal constructor with only error value.
   	emutf_header_block_operator ( error_value * error_status ): 
   		emutf_block_operator(error_status) {}
 

@@ -22,8 +22,14 @@ BIN_TARGET = test_data_operator
 
 INCLUDES = -I ../include/
 
-CC = g++ -g -ggdb
-#options for debugging
+# use as make DEBUG=1
+MTF7_DEBUG?=0
+ifeq ($(MTF7_DEBUG), 1)
+	CC = g++ -g -ggdb -DDEBUG_BUILD
+else
+	CC = g++
+endif
+#options for debugging with gdb
 # -g -ggdb
 
 all: $(OBJECTS) $(BIN_TARGET) 

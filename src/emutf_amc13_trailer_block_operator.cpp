@@ -16,13 +16,6 @@ const mtf7::word_64bit *mtf7::emutf_amc13_trailer_block_operator::unpack( const 
   // process 1st 64-bit word ...
   break_into_abcd_words( *at_ptr); at_ptr++;
 
-    // AMC13 Trailer
-    // word_32bit _amc13_trailer_evt_lgth;
-    // word_16bit _amc13_trailer_crc16;
-    // word_8bit _amc13_trailer_evt_stat, _amc13_trailer_tts;
-    // word_1bit _amc13_trailer_c, _amc13_trailer_f, _amc13_trailer_t, _amc13_trailer_r;
-
-
   // check format identifiers
   if ( (_16bit_word_a & 0xf000) != 0xa000 ) *_error_status = mtf7::EVENT_RECORD_FORMAT;
   if (*_error_status != mtf7::NO_ERROR) return 0;

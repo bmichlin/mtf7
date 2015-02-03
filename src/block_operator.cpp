@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "mtf7/block_operator.h"
+#include "mtf7/emutf_debug.h"
 
 //----------------------------------------------------------------------
 mtf7::block_operator::block_operator( mtf7::error_value *error_status ): 
@@ -32,15 +33,12 @@ mtf7::error_value mtf7::block_operator::get_error_status()
 //----------------------------------------------------------------------
 void mtf7::block_operator::break_into_abcd_words( word_64bit input_value ){
 
-  // std::cout << "word a in break into = " << _16bit_word_a << std::endl;
-  std::cout << "input value in break into = " << input_value << std::endl;
+  MTF7_DEBUG( std::cout, input_value);
 
   _16bit_word_a = input_value & 0xffff; input_value >>= 16;
   _16bit_word_b = input_value & 0xffff; input_value >>= 16;
   _16bit_word_c = input_value & 0xffff; input_value >>= 16;
   _16bit_word_d = input_value & 0xffff; 
-
-  // std::cout << "word a in break into = " << _16bit_word_a << std::endl;
 
 }
 
@@ -53,6 +51,8 @@ mtf7::word_64bit mtf7::block_operator::merge_abcd_words(){
   merged_word |= _16bit_word_c & 0xffff; merged_word <<= 16;
   merged_word |= _16bit_word_b & 0xffff; merged_word <<= 16;
   merged_word |= _16bit_word_a & 0xffff;
+
+  MTF7_DEBUG( std::cout, merged_word);
   
   return merged_word;
 
