@@ -13,28 +13,10 @@ To build the package, use make. The Makefile should currently work for Mac OS ou
 Running:
 --------
 
-Currently there are no executables, a shared object library is built.
+In test you can find a simple makefile that generates a test executable.
 
 Todo:
 ----- 
-
-* need block operators: 
-  + amc13 header
-    - packer
-    - unpacker
-  + amc13 trailer
-    - packer
-    - unpacker
-  + emutf event record header
-    - packer
-  + emutf counter block
-    - packer
-  + emutf 
-    - packer
-    - unpacker
-  + emutf 
-    - packer
-    - unpacker
 
 * emutf_operator_builder:
   + assemble_block_vector is a noop
@@ -42,6 +24,4 @@ Todo:
 l1_event_generator:
   * generate random, but internally consistent emutf_ and amc13_events
 
-packer_unpacker_tester:
-  * generate
 

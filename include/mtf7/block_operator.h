@@ -1,6 +1,7 @@
 #ifndef __MTF7_BLOCK_OPERATOR__
 #define __MTF7_BLOCK_OPERATOR__
 
+#include "mtf7/emutf_event.h"
 #include <vector>
 
 #include "mtf7/types.h"
@@ -22,7 +23,11 @@ namespace mtf7{
 
     error_value get_error_status();
     
+    virtual void  set_event_info_to_pack( const emutf_event * _event_info ) = 0;
+    virtual void  set_unpacked_event_info_ptr( emutf_event *event_info )  = 0;
+
     // ikf todo: add get_event_info() to base class?
+//    virtual const emutf_event *get_unpacked_event_info() = 0;
 
   protected:
 
@@ -39,7 +44,7 @@ namespace mtf7{
     
   };
 
-  typedef std::vector<block_operator>           block_operator_vector;
+  typedef std::vector<block_operator*>           block_operator_vector;
   typedef block_operator_vector::iterator       block_operator_iterator;
   typedef block_operator_vector::const_iterator block_operator_const_iterator;
   
