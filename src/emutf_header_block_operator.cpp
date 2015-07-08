@@ -2,7 +2,6 @@
 
 //----------------------------------------------------------------------
 const mtf7::word_64bit *mtf7::emutf_header_block_operator::unpack( const word_64bit *at_ptr ){
-
    if (*_error_status != mtf7::NO_ERROR) return 0;
 
    _buffer_start_ptr = at_ptr;
@@ -17,6 +16,7 @@ const mtf7::word_64bit *mtf7::emutf_header_block_operator::unpack( const word_64
   if ( (_16bit_word_a & 0xf000) != 0x9000 ) *_error_status = mtf7::EVENT_RECORD_FORMAT;
   if ( (_16bit_word_b & 0xf000) != 0x9000 ) *_error_status = mtf7::EVENT_RECORD_FORMAT;
   if (  _16bit_word_c           != 0x9000 ) *_error_status = mtf7::EVENT_RECORD_FORMAT;
+  if ( _16bit_word_c & 0xfff != 0x000 ) *_error_status = mtf7::EVENT_RECORD_FORMAT; //BAM
   if ( (_16bit_word_d & 0xf000) != 0x9000 ) *_error_status = mtf7::EVENT_RECORD_FORMAT;
   if (*_error_status != mtf7::NO_ERROR) return 0;
 
@@ -31,6 +31,7 @@ const mtf7::word_64bit *mtf7::emutf_header_block_operator::unpack( const word_64
 
     // check format identifiers
   if (  _16bit_word_a           != 0xa000 ) *_error_status = mtf7::EVENT_RECORD_FORMAT;
+  if ( _16bit_word_a & 0xfff != 0x000 ) *_error_status = mtf7::EVENT_RECORD_FORMAT; //BAM
   if ( (_16bit_word_b & 0xf000) != 0xa000 ) *_error_status = mtf7::EVENT_RECORD_FORMAT;
   if ( (_16bit_word_c & 0xf000) != 0xa000 ) *_error_status = mtf7::EVENT_RECORD_FORMAT;
   if ( (_16bit_word_c & 0x800 )           ) *_error_status = mtf7::EVENT_RECORD_FORMAT;
@@ -60,10 +61,10 @@ const mtf7::word_64bit *mtf7::emutf_header_block_operator::unpack( const word_64
   break_into_abcd_words( *at_ptr); at_ptr++;
 
   // check format identifiers
-  if ( (_16bit_word_a & 0x8000) != 0x8000 ) *_error_status = mtf7::EVENT_RECORD_FORMAT;
-  if ( _16bit_word_b & 0x8000 )             *_error_status = mtf7::EVENT_RECORD_FORMAT;
-  if ( _16bit_word_c & 0x8000 )             *_error_status = mtf7::EVENT_RECORD_FORMAT;
-  if ( _16bit_word_d & 0x8000 )             *_error_status = mtf7::EVENT_RECORD_FORMAT;
+  if ( (_16bit_word_a & 0x8000) != 0x8000)            *_error_status = mtf7::EVENT_RECORD_FORMAT;
+  if ( (_16bit_word_b & 0x8000) != 0x0000)             *_error_status = mtf7::EVENT_RECORD_FORMAT;
+  if ( (_16bit_word_c & 0x8000) != 0x0000)             *_error_status = mtf7::EVENT_RECORD_FORMAT;
+  if ( (_16bit_word_d & 0x8000) != 0x0000)             *_error_status = mtf7::EVENT_RECORD_FORMAT;
 
   if (*_error_status != mtf7::NO_ERROR) return 0;
 

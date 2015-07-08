@@ -5,6 +5,7 @@
 
 //----------------------------------------------------------------------
 const mtf7::word_64bit *mtf7::emutf_amc13_header_block_operator::unpack( const word_64bit *at_ptr ){
+////std::cout << "Unpacking emutf_amc13_header_block_operator" << std::endl;
 
    if (*_error_status != mtf7::NO_ERROR) return 0;
 
@@ -36,15 +37,16 @@ const mtf7::word_64bit *mtf7::emutf_amc13_header_block_operator::unpack( const w
   break_into_abcd_words( *at_ptr); at_ptr++;
 
   // set values derived from 1st word
-  _unpacked_event_info -> _amc13_header_ufov  =  _16bit_word_a & 0xf; _16bit_word_a >>= 4;
-  _unpacked_event_info -> _amc13_header_res  =  _16bit_word_a & 0xf; _16bit_word_a >>= 4;
-  _unpacked_event_info -> _amc13_header_namc  =  _16bit_word_a & 0xf;
+_unpacked_event_info -> _amc13_header_namc  =  _16bit_word_a & 0xf; _16bit_word_a <<= 4;
+_unpacked_event_info -> _amc13_header_res   =  _16bit_word_a & 0xf; _16bit_word_a <<= 4;
+_unpacked_event_info -> _amc13_header_ufov  =  _16bit_word_a & 0xf;
 
   // next 16 bits are reserved and set to 0.
 
   _unpacked_event_info -> _amc13_header_orn = _16bit_word_b & 0xfff0;
   _unpacked_event_info -> _amc13_header_orn |= (_16bit_word_c & 0xffff) << 12;
-  _unpacked_event_info -> _amc13_header_orn |= (_16bit_word_a & 0xf) << 28;
+  //_unpacked_event_info -> _amc13_header_orn |= (_16bit_word_a & 0xf) << 28;
+  _unpacked_event_info -> _amc13_header_orn |= (_16bit_word_d & 0xf) << 28;
 
   return at_ptr;
 

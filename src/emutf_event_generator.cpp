@@ -14,13 +14,20 @@
 
 
 void mtf7::event_generator::setFileName( std::string _fileName ){
-	
+
 	fileName = _fileName;
 	if(!fileName.find(".txt"))
 		fileName += ".txt";
 
 }
 
+unsigned mtf7::event_generator::createMask(unsigned a, unsigned b){ //This method was taken from http://stackoverflow.com/questions/8011700/how-do-i-extract-specific-n-bits-of-a-32-bit-unsigned-integer-in-c
+	unsigned r = 0;
+	for(unsigned i=a; i<=b; i++){
+		r |= 1 << i;
+	}
+	return r;
+}
 
 // generate a single event with event number i
 void mtf7::event_generator::generateEvent( int event_number, emutf_event * unpacked_event ){
@@ -39,8 +46,8 @@ void mtf7::event_generator::generateEvent( int event_number, emutf_event * unpac
 
 
 void mtf7::event_generator::generateEvents( int nevents ){
-
-	// initialize the rng with a seed from machine clock
+std::cout << "Running 'generateEvents'" << std::endl;	
+// initialize the rng with a seed from machine clock
 	srand(time(NULL)); 
 
 	std::string txt_ex(".txt");
@@ -63,9 +70,9 @@ void mtf7::event_generator::generateEvents( int nevents ){
 	int offset = 3;
 
 	emutf_event * unpacked_event = new emutf_event();
-
+	std::cout << "Begin generating events..." << std::endl;
 	for( int i = offset; i < nevents+offset; i++){ 
-
+		std::cout << "Event Number: " << i << "\r" << std::flush;
 		generateEvent(i, unpacked_event);
 
 		// generateEventRecordHeader(i, unpacked_event);
@@ -96,16 +103,10 @@ void mtf7::event_generator::generateEvents( int nevents ){
 		asciiFile << "" << unpacked_event -> _TC << std::endl;
 		asciiFile << "" << unpacked_event -> _OC << std::endl;
 
-
-// --------
-// from http://stackoverflow.com/questions/24348761/how-to-get-bitset-or-with-different-bitset-sizes
-// assuming op1 is larger
-//op1 |= std::bitset<op1.size()>(op2.to_ullong())
-// -----------
-
+		asciiFile << "" << unpacked_event -> _csc_me_bxn << std::endl;
+		// --------
 		//write a binary file
 		//every 64 bit word has to be written from right to left, so in order of 16bit words: d,c,b,a
-
 		std::bitset<64> _64bit_word (0x0);
 		//word d
 		_64bit_word |= (0x9<<12);
@@ -121,14 +122,243 @@ void mtf7::event_generator::generateEvents( int nevents ){
 		_64bit_word<<=16;
 		_64bit_word |= (0x9<<12);
 		_64bit_word |= (unpacked_event -> _l1a & 0xffff);
-		
+
 		binaryFile.write((char*)&_64bit_word,sizeof(_64bit_word));
 
+		std::bitset<64> _HD2 (0x0);
+		//word d
+		_HD2 |= (0xA<<12);
+		_HD2 |= createMask(1,9) & unpacked_event->_ME1a; 
+		//word c
+		_HD2<<=16;
+		_HD2 |= (0xA<<12);
+		_HD2 |= (createMask(0,2) & unpacked_event->_tbin)<<8; // place these three bits on D10-D8
+		_HD2 |= (unpacked_event->_ddm )<<7;
+		_HD2 |= (unpacked_event->_spa )<<6;
+		_HD2 |= (unpacked_event->_rpca)<<5;
+		_HD2 |= (unpacked_event->_skip)<<4;
+		_HD2 |= (unpacked_event->_rdy )<<3;
+		_HD2 |= (unpacked_event->_bsy )<<2;
+		_HD2 |= (unpacked_event->_osy )<<1;
+		_HD2 |= (unpacked_event->_wof )<<0;
+		//word b
+		_HD2<<=16;
+		_HD2 |= (0xA<<12);
+		_HD2 |= (createMask(0,3) & unpacked_event ->_sp_ts)<<8;
+		_HD2 |= (createMask(0,2) & unpacked_event ->_sp_ersv)<<5;
+		_HD2 |= (createMask(0,4) & unpacked_event ->_sp_addr)<<0;
+		//word a
+		_HD2<<=16;
+		_HD2 |= (0xA<<12);
+
+		binaryFile.write((char*)&_HD2,sizeof(_HD2));
+
+		std::bitset<64> _HD3 (0x0);
+		//word d
+		_HD3 |= (createMask(19,24) & unpacked_event->_RPC)<<9;
+		_HD3 |= (createMask(1,9) & unpacked_event->_ME4);
+		//word c
+		_HD3<<=16;
+		_HD3 |= (createMask(13,18) & unpacked_event->_RPC)<<9;
+		_HD3 |= (createMask(1,9) & unpacked_event->_ME3);
+		//word b
+		_HD3<<=16;
+		_HD3 |= (createMask(7,12) & unpacked_event->_RPC)<<9;
+		_HD3 |= (createMask(1,9) & unpacked_event->_ME2);
+		//word a
+		_HD3<<=16;
+		_HD3 |= (createMask(15,15) & 0xffff)<<15;
+		_HD3 |= (createMask(1,6) & unpacked_event->_RPC)<<9;
+		_HD3 |= (createMask(1,9) & unpacked_event->_ME1b);
+
+		binaryFile.write((char*)&_HD3,sizeof(_HD3));
 
 
+		//Block of Counters     
+		std::bitset<64> _BC (0x0);
+		//word d
+		_BC |= createMask(15,29) & unpacked_event->_OC;
 
+		//word c
+		_BC<<=16;
+		_BC |= createMask(0,14) & unpacked_event->_OC;
+		//word b
+		_BC<<=16;
+		_BC |= (createMask(15,15) & 0xffff)<<15;
+		_BC |= createMask(15,29) & unpacked_event->_TC;
+
+		//word a
+		_BC<<=16;
+		_BC |= createMask(0,14) & unpacked_event->_TC;
+
+		binaryFile.write((char*)&_BC,sizeof(_BC));
+
+		//MEX Data Record
+		std::bitset<64> _ME (0x0);
+		//word d
+		_ME |= (unpacked_event->_csc_afef )<<14;
+		_ME |= (unpacked_event->_csc_se )<<13;
+		_ME |= (unpacked_event->_csc_sm )<<12;
+		_ME |= (createMask(0,3) & unpacked_event->_csc_epc)<<8;
+		_ME |= (unpacked_event->_csc_af)<<7;
+		_ME |= (createMask(0,2) & unpacked_event->_csc_station)<<4;
+		_ME |= (unpacked_event->_csc_vp)<<3;
+		_ME |= (createMask(0,2) & unpacked_event->_csc_tbin_num)<<0;
+
+		//word c
+		_ME<<=16;
+		_ME |= (unpacked_event->_csc_afff)<<14;
+		_ME |= (unpacked_event->_csc_cik)<<13;
+		_ME |= (unpacked_event->_csc_nit)<<12;
+		_ME |= (createMask(0,11) & unpacked_event->_csc_me_bxn)<<0;
+		//word b
+		_ME<<=16;
+		_ME |= (createMask(15,15) & 0xffff)<<15;
+		_ME |= (unpacked_event->_csc_bc0)<<14;
+		_ME |= (unpacked_event->_csc_bxe)<<13;
+		_ME |= (unpacked_event->_csc_lr)<<12;
+		_ME |= (createMask(0,3) & unpacked_event->_csc_id)<<8;
+		_ME |= (createMask(0,7) & unpacked_event->_csc_clct_key_half_strip)<<0;
+
+		//word a
+		_ME<<=16;
+		_ME |= (createMask(15,15) & 0xffff)<<15;
+		_ME |= (createMask(0,6) & unpacked_event->_csc_key_wire_group)<<8;
+		_ME |= (createMask(0,3) & unpacked_event->_csc_quality)<<4;
+		_ME |= (createMask(0,3) & unpacked_event->_csc_clct_pattern)<<0;
+
+		binaryFile.write((char*)&_ME,sizeof(_ME));
+
+		//RPC Data Record
+
+		std::bitset<64> _RPC (0x0);
+		//word d
+		_RPC |= (createMask(0,2) & unpacked_event->_rpc_tbin)<<0;
+
+		//word c
+		_RPC<<=16;
+		_RPC |= (createMask(15,15) & 0xffff)<<15;
+		_RPC |= (unpacked_event->_rpc_bc0)<<14;
+		_RPC |= (createMask(0,11) & unpacked_event->_rpc_bxn)<<0;
+		//word b
+		_RPC<<=16;
+		_RPC |= (createMask(0,5) & unpacked_event->_rpc_bcn)<<8;
+		_RPC |= (unpacked_event->_rpc_eod)<<7;
+		_RPC |= (createMask(0,1) & unpacked_event->_rpc_lb)<<5;
+		_RPC |= (createMask(0,4) & unpacked_event->_rpc_link_number)<<0;
+		//word a
+		_RPC<<=16;
+		_RPC |= (createMask(0,2) & unpacked_event->_rpc_prt_delay)<<12;
+		_RPC |= (createMask(0,3) & unpacked_event->_rpc_partition_num)<<8;
+		_RPC |= (createMask(0,7) & unpacked_event->_rpc_partition_data)<<0;
+
+		binaryFile.write((char*)&_RPC,sizeof(_RPC));
+
+		//SP Output Data Record
+
+		std::bitset<64> _SP1 (0x0);
+		//word d
+		_SP1 |= (createMask(0,2) & unpacked_event->_track_bx)<<9;
+		_SP1 |= (createMask(0,8) & unpacked_event->_track_pt)<<0;
+
+		//word c
+		_SP1<<=16;
+		_SP1 |= (createMask(15,15) & 0xffff)<<15;
+		_SP1 |= (createMask(0,3) & unpacked_event->_track_quality)<<9;
+		std::cout << "unpacked_event->_track_eta: " << unpacked_event->_track_eta << std::endl;
+		_SP1 |= (createMask(0,8) & unpacked_event->_track_eta)<<0;
+		//word b
+		_SP1<<=16;
+		_SP1 |= (unpacked_event->_track_se)<<13;
+		_SP1 |= (unpacked_event->_track_bc0)<<12;
+		_SP1 |= (createMask(0,11) & unpacked_event->_track_phi_outer)<<0;
+		//word a
+		_SP1<<=16;
+		_SP1 |= (createMask(15,15) & 0xffff)<<15;
+		_SP1 |= (unpacked_event->_track_hl)<<14;
+		_SP1 |= (unpacked_event->_track_c)<<13;
+		_SP1 |= (unpacked_event->_track_vc)<<12;
+		_SP1 |= (createMask(0,11) & unpacked_event->_track_phi_inner)<<0;
+
+		binaryFile.write((char*)&_SP1,sizeof(_SP1));
+
+		std::bitset<64> _SP2 (0x0);
+		//word d
+		_SP2 |= (createMask(15,29) & unpacked_event->_track_pt_lut_address)<<0;
+
+		//word c
+		_SP2<<=16;
+		_SP2 |= (createMask(15,15) & 0xffff)<<15;
+		_SP2 |= (createMask(0,14) & unpacked_event->_track_pt_lut_address)<<0;
+		//word b
+		_SP2<<=16;
+		_SP2 |= (createMask(15,15) & 0xffff)<<15;
+		_SP2 |= (createMask(0,2) & unpacked_event->_track_tbin_num)<<12;
+		_SP2 |= (createMask(0,2) & unpacked_event->_track_me4_tbin)<<9;
+		_SP2 |= (createMask(0,2) & unpacked_event->_track_me3_tbin)<<6;
+		_SP2 |= (createMask(0,2) & unpacked_event->_track_me2_tbin)<<3;
+		_SP2 |= (createMask(0,2) & unpacked_event->_track_me1_tbin)<<0;
+		//word a
+		_SP2<<=16;
+		_SP2 |= (createMask(0,1) & unpacked_event->_track_me4_id)<<7;
+		_SP2 |= (createMask(0,1) & unpacked_event->_track_me3_id)<<5;
+		_SP2 |= (createMask(0,1) & unpacked_event->_track_me2_id)<<3;
+		_SP2 |= (createMask(0,2) & unpacked_event->_track_me1_id)<<0;
+
+		binaryFile.write((char*)&_SP2,sizeof(_SP2));
+
+		//Event Record Trailer
+		std::bitset<64> _TR1 (0x0);
+		//word d
+		_TR1 |= (0xF<<12);
+		_TR1 |= (createMask(0,11) & unpacked_event->_trailer_spcrs_scc)<<0;
+
+		//word c
+		_TR1<<=16;
+		_TR1 |= (0xF<<12);
+		_TR1 |= (createMask(8,15) & unpacked_event->_trailer_ddcrs_bid)<<0;
+		//word b
+		_TR1<<=16;
+		_TR1 |= (0xF<<12);
+		_TR1 |= (createMask(4,7) & unpacked_event->_trailer_ddcrs_lf)<<8;
+		_TR1 |= (unpacked_event->_trailer_lfff)<<7;
+		_TR1 |= (0x7<<4);
+		_TR1 |= (0xF<<0);
+
+		//word a
+		_TR1<<=16;
+		_TR1 |= (0xF<<12);
+		_TR1 |= (createMask(0,3) & unpacked_event->_trailer_ddcrs_lf)<<8;
+		_TR1 |= (createMask(0,7) & unpacked_event->_trailer_l1a)<<0;
+
+		binaryFile.write((char*)&_TR1,sizeof(_TR1));
+
+		std::bitset<64> _TR2 (0x0);
+		//word d
+		_TR2 |= (0xE<<12);
+		_TR2 |= (unpacked_event->_trailer_hp)<<11;
+		_TR2 |= (createMask(11,21) & unpacked_event->_trailer_crc22)<<0;
+		//word c
+		_TR2<<=16;
+		_TR2 |= (0xE<<12);
+		_TR2 |= (unpacked_event->_trailer_lp)<<11;
+		_TR2 |= (createMask(0,10) & unpacked_event->_trailer_crc22)<<0;
+		//word b
+		_TR2<<=16;
+		_TR2 |= (0xE<<12);
+		_TR2 |= (createMask(0,3) & unpacked_event->_trailer_sp_ladr)<<8;
+		_TR2 |= (createMask(0,2) & unpacked_event->_trailer_sp_ersv)<<5;
+		_TR2 |= (createMask(0,4) & unpacked_event->_trailer_sp_padr)<<8;
+
+		//word a
+		_TR2<<=16;
+		_TR2 |= (0xE<<12);
+		_TR2 |= (createMask(0,4) & unpacked_event->_trailer_ddcrs_bid)<<0;
+
+		binaryFile.write((char*)&_TR2,sizeof(_TR2));
 	}
-
+	std::cout << "" << std::endl;
+	std::cout << "Event generation completed" << std::endl;
 	// close an ascii file
 	asciiFile.close();
 
@@ -180,8 +410,8 @@ void mtf7::event_generator::generateEventRecordHeader( int i, emutf_event * _eve
 	_event -> _sp_ts = generateInt(4); // 4 in the dataformat
 	_event -> _sp_ersv = generateInt(3); // 3 in the df
 	_event -> _sp_addr = generateInt(5); // 5 in the df
-	std::cout << "sp_addr = " << _event -> _sp_addr << std::endl;
-	std::cout << "Size of sp_addr = " << sizeof(_event -> _sp_addr) << std::endl;
+	//std::cout << "sp_addr = " << _event -> _sp_addr << std::endl;
+	//std::cout << "Size of sp_addr = " << sizeof(_event -> _sp_addr) << std::endl;
 	_event -> _tbin = generateInt(3); // 3 in the df
 
 	// generate status bits
@@ -205,7 +435,7 @@ void mtf7::event_generator::generateEventRecordHeader( int i, emutf_event * _eve
 	_event -> _RPC = generateInt(24);
 
 }
- 
+
 
 void mtf7::event_generator::generateBlockOfCounters( emutf_event * _event ){
 	_event -> _TC = generateInt(30);
@@ -258,7 +488,6 @@ void mtf7::event_generator::generateRPCdataRecord( emutf_event * _event ){
 
 
 void mtf7::event_generator::generateSPoutputDataRecord( emutf_event * _event ){
-
 	_event -> _track_pt_lut_address = generateInt(32);
 	_event -> _track_phi_inner = generateInt(16);
 	_event -> _track_phi_outer = generateInt(16);
@@ -311,7 +540,7 @@ void mtf7::event_generator::generateEventRecordTrailer( emutf_event * _event ){
 
 void mtf7::event_generator::generateAMC13Trailer( emutf_event * _event ){
 
-    // AMC13 Trailer
+	// AMC13 Trailer
 
 	_event -> _amc13_trailer_evt_lgth = generateInt(24);
 	_event -> _amc13_trailer_crc16 = generateInt(16);

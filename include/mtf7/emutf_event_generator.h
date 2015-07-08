@@ -43,7 +43,7 @@ namespace mtf7{
 
 		int generateInitialL1A();
 
-
+		unsigned createMask(unsigned a, unsigned b);
 	};
 
 }

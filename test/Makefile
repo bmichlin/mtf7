@@ -12,7 +12,9 @@ SOURCES=block_operator.cpp \
 	emutf_spoutputdata_block_operator.cpp \
 	emutf_trailer_block_operator.cpp \
 	emutf_amc13_header_block_operator.cpp \
-	emutf_amc13_trailer_block_operator.cpp
+	emutf_amc13_trailer_block_operator.cpp \
+	unity_test.cpp
+	##noise_recovery.cpp
 
 OBJECTS=$(SOURCES:.cpp=.o)
 

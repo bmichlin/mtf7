@@ -5,7 +5,6 @@
 
 //----------------------------------------------------------------------
 const mtf7::word_64bit *mtf7::emutf_amc13_trailer_block_operator::unpack( const word_64bit *at_ptr ){
-
    if (*_error_status != mtf7::NO_ERROR) return 0;
 
    _buffer_start_ptr = at_ptr;
@@ -52,7 +51,7 @@ unsigned long mtf7::emutf_amc13_trailer_block_operator::pack(){
   _16bit_word_c = _event_info_to_pack -> _amc13_trailer_crc16 & 0xffff;
 
   _16bit_word_d = _event_info_to_pack -> _amc13_trailer_c & 0x1; _16bit_word_d <<= 1;
-  _16bit_word_d |= _event_info_to_pack -> _amc13_trailer_f & 0x1; _16bit_word_d <<= 7;
+  _16bit_word_d |= _event_info_to_pack -> _amc13_trailer_f & 0x1; _16bit_word_d <<= 6;
   _16bit_word_d |= _event_info_to_pack -> _amc13_trailer_evt_stat & 0xf; _16bit_word_d <<= 4;
   _16bit_word_d |= _event_info_to_pack -> _amc13_trailer_tts & 0xf; _16bit_word_d <<= 1;
   _16bit_word_d |= _event_info_to_pack -> _amc13_trailer_t & 0x1; _16bit_word_d <<= 1;

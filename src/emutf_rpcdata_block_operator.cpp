@@ -1,7 +1,7 @@
 #include "mtf7/emutf_rpcdata_block_operator.h"
  
 const mtf7::word_64bit *mtf7::emutf_rpcdata_block_operator::unpack ( const mtf7::word_64bit *at_ptr ){
-
+//std::cout << "Unpacking emutf_rpcdata_block_operator" << std::endl;
   if (*_error_status != mtf7::NO_ERROR) return 0;
 
   if (at_ptr == 0) { *_error_status = mtf7::NULL_BUFFER_PTR; return 0; }
